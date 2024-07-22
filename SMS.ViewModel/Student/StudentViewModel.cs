@@ -18,5 +18,12 @@ namespace SMS.ViewModel.Student
         /// get one student details
         /// </summary>
         public StudentBO StudentDetail { get; set; }
+
+        /// <summary>
+        /// Get student by active state
+        /// </summary>
+        public bool? IsActive { get; set; }
+
+
     }
 }
