@@ -1,0 +1,23 @@
+<div class="container mt-5">
+  <h2 class="mb-4">Subject List</h2>
+  <table class="table table-striped table-bordered table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let subject of subjects">
+        <td>{{ subject.subjectCode }}</td>
+        <td>{{ subject.name }}</td>
+        <td>
+          <span [ngClass]="{'text-success': subject.isEnable, 'text-danger': !subject.isEnable}">
+            {{ subject.isEnable ? 'Enabled' : 'Disabled' }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

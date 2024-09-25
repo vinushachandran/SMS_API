@@ -1,0 +1,68 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    background: white;
+    padding: 0; /* Set to 0 to remove inner padding */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid #007BFF; /* Optional: adding a border around the container */
+    position: relative; /* For positioning the button */
+}
+
+h2 {
+    margin: 0; /* Remove margin to eliminate space */
+    padding: 10px; /* Add padding for spacing around the text */
+    text-align: center;
+    color: #f4f4f4;
+    background-color: #007BFF;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse; /* Removes gaps between borders */
+}
+
+td, th {
+    padding: 10px;
+    text-align: left;
+    color: #555;
+}
+
+th {
+    font-weight: bold;
+    color: #333;
+    padding-bottom: 5px;
+}
+
+.status {
+    font-weight: bold;
+    color: green;
+}
+
+.status.disabled {
+    color: red;
+}
+
+.close-button {
+    display: block;
+    width: 120px; /* Set a specific width for the button */
+    padding: 8px; /* Adjust padding to make it smaller */
+    margin: 20px auto 10px; /* Center the button and add space above and below */
+    text-align: center;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px; /* Smaller font size */
+}
+
+.close-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}

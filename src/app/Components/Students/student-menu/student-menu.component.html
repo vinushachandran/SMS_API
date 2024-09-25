@@ -1,0 +1,12 @@
+<div class="sub-menu">
+  <button (click)="navigateToAddStudent()" class="btn btn-primary">Add Student</button>
+
+  <div class="status-container">
+    <label>Status</label>
+    <select (change)="ActiveFilter($event)">
+      <option value="">All</option>
+      <option value="true">Active</option>
+      <option value="false">Inactive</option>
+    </select>
+  </div>
+</div>
