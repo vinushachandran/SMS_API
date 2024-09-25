@@ -303,7 +303,7 @@ namespace SMS.BL.Subject
                     if (checkSubjectInUse)
                     {
                         response.Success = false;
-                        response.Message.Add("Subject allocated for a subject");
+                        response.Message.Add("Subject allocated for a teacher");
                         return response;
                     }
 

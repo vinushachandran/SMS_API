@@ -6,7 +6,7 @@ using SMS.ViewModel.Subject;
 
 namespace SMS_API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class SubjectController : ControllerBase
     {

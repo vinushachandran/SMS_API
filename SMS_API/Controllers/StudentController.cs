@@ -88,11 +88,11 @@ namespace SMS_API.Controllers
 
             if (response.Success)
             {
-                return Ok(response.TotalMessages);
+                return Ok(response);
             }
             else
             {
-                return StatusCode(500, response.Message);
+                return StatusCode(500, response);
             }
 
         }
@@ -109,11 +109,11 @@ namespace SMS_API.Controllers
             var response=_studentRepository.AddStudent(student);
             if (response.Success)
             {
-                return Ok(response.TotalMessages);
+                return Ok(response);
             }
             else
             {
-                return StatusCode(500, response.Message);
+                return StatusCode(500, response);
             }
 
         }
@@ -135,7 +135,7 @@ namespace SMS_API.Controllers
             }
             else
             {
-                return StatusCode(500, response.Message);
+                return StatusCode(500, response);
             }
 
         }

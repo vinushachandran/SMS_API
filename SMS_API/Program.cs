@@ -1,5 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
+using SMS.BL.Allocation;
+using SMS.BL.Allocation.Interface;
 using SMS.BL.Student;
 using SMS.BL.Student.Interface;
 using SMS.BL.Subject;
@@ -19,6 +21,7 @@ builder.Services.AddDbContext<SMS_Context>(options =>
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+builder.Services.AddScoped<IAllocationReposiory,AllocationRepository>();
 
 
 builder.Services.AddControllers();
@@ -36,6 +39,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
 app.UseAuthorization();
 
