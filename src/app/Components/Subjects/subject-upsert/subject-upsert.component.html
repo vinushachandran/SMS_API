@@ -1,0 +1,46 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="form-container"> <!-- Form container for border -->
+          <h2 class="text-center mb-4" *ngIf="!exsistingSubject">Add Subject</h2>
+          <h2 class="text-center mb-4" *ngIf="exsistingSubject">Update Subject</h2>
+  
+          <form [formGroup]="subjectForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+  
+            <!-- Subject Code -->
+            <div class="form-group mb-3">
+              <label for="SubjectCode" class="form-label">Subject Code</label><span class="required-field">*</span>
+              <input type="text" id="SubjectCode" formControlName="subjectCode" class="form-control" />
+              <div *ngIf="subjectForm.get('subjectCode')?.invalid && (subjectForm.get('subjectCode')?.touched || subjectForm.get('subjectCode')?.dirty)" class="error">
+                <div class="text-danger" *ngIf="subjectForm.get('subjectCode')?.errors?.['required']">Subject is required.</div>
+              </div>
+            </div>
+  
+            <!-- Subject Name -->
+            <div class="form-group mb-3">
+              <label for="Name" class="form-label">Subject Name</label><span class="required-field">*</span>
+              <input type="text" id="Name" formControlName="subjectName" class="form-control" />
+              <div *ngIf="subjectForm.get('subjectName')?.invalid && (subjectForm.get('subjectName')?.touched || subjectForm.get('subjectName')?.dirty)" class="error">
+                <div class="text-danger" *ngIf="subjectForm.get('subjectName')?.errors?.['required']">Subject Name is required.</div>
+              </div>
+            </div>
+  
+            <!-- Is Enabled Checkbox -->
+            <div class="form-check mb-4">
+              <label for="isEnable" class="form-check-label">Enabled</label>
+              <input id="isEnable" formControlName="isEnable" type="checkbox" class="form-check-input" />
+            </div>
+  
+            <!-- Submit and Back Buttons -->
+            <div class="d-flex justify-content-between">
+              <button *ngIf="!exsistingSubject" type="submit" class="btn btn-primary">Create</button>
+              <button *ngIf="exsistingSubject" type="submit" class="btn btn-primary">Update</button>
+              <button type="button" class="btn btn-secondary" (click)="onBack()">Back</button>
+            </div>
+  
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

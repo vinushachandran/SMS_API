@@ -1,0 +1,118 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="form-container"> <!-- Form container for border -->
+          <h2 class="text-center mb-4" *ngIf="!exsistingTeacher">Add Teacher</h2>
+          <h2 class="text-center mb-4" *ngIf="exsistingTeacher">Update Teacher</h2>
+  
+          <form [formGroup]="teacherForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+  
+            <!-- Registration Number-->
+            <div class="form-group mb-3">
+              <label for="TeacherRegNo" class="form-label">Registration Number</label><span class="required-field">*</span>
+              <input type="text" id="TeacherRegNo" formControlName="teacherRegNo" class="form-control" />
+              <div *ngIf="teacherForm.get('teacherRegNo')?.invalid && (teacherForm.get('teacherRegNo')?.touched || teacherForm.get('teacherRegNo')?.dirty)" class="error">
+                <div class="text-danger" *ngIf="teacherForm.get('teacherRegNo')?.errors?.['required']">Registration Number is required.</div>
+              </div>
+            </div>
+
+            <!-- First Name -->
+            <div class="form-group mb-3">
+              <label for="FirstName" class="form-label">First Name</label><span class="required-field">*</span>
+              <input type="text" id="FirstName" formControlName="firstName" class="form-control" />
+              <div *ngIf="teacherForm.get('firstName')?.invalid && (teacherForm.get('firstName')?.touched || teacherForm.get('firstName')?.dirty)" class="error">
+                <div class="text-danger" *ngIf="teacherForm.get('firstName')?.errors?.['required']">First Name is required.</div>
+              </div>
+            </div>
+
+             <!-- Middle Name -->
+          <div class="form-group mb-3">
+            <label for="MiddleName" class="form-label">Middle Name</label>
+            <input type="text" id="MiddleName" formControlName="middleName" class="form-control" />
+          </div>
+
+  
+            <!-- Last Name -->
+            <div class="form-group mb-3">
+              <label for="LastName" class="form-label">Last Name</label><span class="required-field">*</span>
+              <input type="text" id="LastName" formControlName="lastName" class="form-control" />
+              <div *ngIf="teacherForm.get('lastName')?.invalid && (teacherForm.get('lastName')?.touched || teacherForm.get('lastName')?.dirty)" class="error">
+                <div class="text-danger" *ngIf="teacherForm.get('lastName')?.errors?.['required']">Last Name is required.</div>
+              </div>
+            </div>
+
+            <!-- Display Name -->
+          <div class="form-group mb-3">
+            <label for="DisplayName" class="form-label">Display Name</label><span class="required-field">*</span>
+            <input type="text" id="DisplayName" formControlName="displayName" class="form-control" />
+            <div *ngIf="teacherForm.get('displayName')?.invalid && (teacherForm.get('displayName')?.touched || teacherForm.get('displayName')?.dirty)" class="error">
+              <div class="text-danger" *ngIf="teacherForm.get('displayName')?.errors?.['required']">Display Name is required.</div>
+            </div>
+          </div>
+  
+            <!-- Email -->
+            <div class="form-group mb-3">
+              <label for="Email" class="form-label">Email</label><span class="required-field">*</span>
+              <input type="email" id="Email" formControlName="email" class="form-control" />
+              <div *ngIf="teacherForm.get('email')?.invalid && (teacherForm.get('email')?.touched || teacherForm.get('email')?.dirty)" class="error">
+                <div class="text-danger" *ngIf="teacherForm.get('email')?.errors?.['required']">Email is required.</div>
+                <div class="text-danger" *ngIf="teacherForm.get('email')?.errors?.['email']">Invalid email</div>
+              </div>
+            </div>
+  
+            <!-- Gender -->
+            <div class="form-group mb-3">
+              <label for="Gender" class="form-label">Gender</label><span class="required-field">*</span>
+              <select id="Gender" formControlName="gender" class="form-select">
+                <option value="Male" selected>Male</option>
+                <option value="Female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+  
+            <!-- Date of Birth -->
+            <div class="form-group mb-3">
+              <label for="DOB" class="form-label">Date of Birth</label><span class="required-field">*</span>
+              <input id="DOB" formControlName="dob" type="date" class="form-control" />
+              <div *ngIf="teacherForm.get('dob')?.invalid && (teacherForm.get('dob')?.touched || teacherForm.get('dob')?.dirty)" class="error">
+                <div class="text-danger" *ngIf="teacherForm.get('dob')?.errors?.['required']">DOB is required.</div>
+              </div>
+            </div>
+  
+            <!-- Address -->
+            <div class="form-group mb-3">
+              <label for="Address" class="form-label">Address</label><span class="required-field">*</span>
+              <input type="text" id="Address" formControlName="address" class="form-control" />
+              <div *ngIf="teacherForm.get('address')?.invalid && (teacherForm.get('address')?.touched || teacherForm.get('address')?.dirty)" class="error">
+                <div class="text-danger" *ngIf="teacherForm.get('address')?.errors?.['required']">Address is required.</div>
+              </div>
+            </div>
+  
+            <!-- Contact Number -->
+            <div class="form-group mb-3">
+              <label for="ContactNo" class="form-label">Contact Number</label><span class="required-field">*</span>
+              <input type="text" id="ContactNo" formControlName="contactNo" class="form-control" />
+              <div *ngIf="teacherForm.get('contactNo')?.invalid && (teacherForm.get('contactNo')?.touched || teacherForm.get('contactNo')?.dirty)" class="error">
+                <div class="text-danger" *ngIf="teacherForm.get('contactNo')?.errors?.['required']">Contact No is required.</div>
+              </div>
+            </div>
+  
+            <!-- Is Enabled Checkbox -->
+            <div class="form-check mb-4">
+              <label for="isEnable" class="form-check-label">Enabled</label>
+              <input id="isEnable" formControlName="isEnable" type="checkbox" class="form-check-input" />
+            </div>
+  
+            <!-- Submit and Back Buttons -->
+            <div class="d-flex justify-content-between">
+              <button *ngIf="!exsistingTeacher" type="submit" class="btn btn-primary">Create</button>
+              <button *ngIf="exsistingTeacher" type="submit" class="btn btn-primary">Update</button>
+              <button type="button" class="btn btn-secondary" (click)="onBack()">Back</button>
+            </div>
+  
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -11,12 +11,10 @@ h2 {
     color: #f4f4f4;
     background-color: #1b7feb;
     padding: 10px 20px; 
-    
 }
 
-.table-body{
+.table-body {
     max-width: 1200px;
-    
     background: white;
     padding: 20px;
     border-radius: 8px;
@@ -89,7 +87,7 @@ h2 {
     margin-top: 20px;
 }
 
-.criteriaSelection{
+.criteriaSelection {
     padding: 7px 50px;
     border-radius: 5px;
     border-color: #e0e6ec;

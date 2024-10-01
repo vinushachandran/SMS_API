@@ -8,8 +8,8 @@
         <form [formGroup]="studentForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
 
           <!-- Registration Number -->
-          <div class="form-group mb-3 d-flex align-items-center">
-            <label for="StudentRegNo" class="form-label me-3">Registration Number</label>
+          <div class="form-group mb-3">
+            <label for="StudentRegNo" class="form-label">Registration Number</label><span class="required-field">*</span>
             <input type="text" id="StudentRegNo" formControlName="studentRegNo" class="form-control" />
             <div *ngIf="studentForm.get('studentRegNo')?.invalid && (studentForm.get('studentRegNo')?.touched || studentForm.get('studentRegNo')?.dirty)" class="error">
               <div class="text-danger" *ngIf="studentForm.get('studentRegNo')?.errors?.['required']">Registration Number is required.</div>
@@ -17,8 +17,8 @@
           </div>
 
           <!-- First Name -->
-          <div class="form-group mb-3 d-flex align-items-center">
-            <label for="FirstName" class="form-label me-3">First Name</label>
+          <div class="form-group mb-3">
+            <label for="FirstName" class="form-label">First Name</label><span class="required-field">*</span>
             <input type="text" id="FirstName" formControlName="firstName" class="form-control" />
             <div *ngIf="studentForm.get('firstName')?.invalid && (studentForm.get('firstName')?.touched || studentForm.get('firstName')?.dirty)" class="error">
               <div class="text-danger" *ngIf="studentForm.get('firstName')?.errors?.['required']">First Name is required.</div>
@@ -26,14 +26,14 @@
           </div>
 
           <!-- Middle Name -->
-          <div class="form-group mb-3 d-flex align-items-center">
-            <label for="MiddleName" class="form-label me-3">Middle Name</label>
+          <div class="form-group mb-3">
+            <label for="MiddleName" class="form-label">Middle Name</label>
             <input type="text" id="MiddleName" formControlName="middleName" class="form-control" />
           </div>
 
           <!-- Last Name -->
-          <div class="form-group mb-3 d-flex align-items-center">
-            <label for="LastName" class="form-label me-3">Last Name</label>
+          <div class="form-group mb-3">
+            <label for="LastName" class="form-label">Last Name</label><span class="required-field">*</span>
             <input type="text" id="LastName" formControlName="lastName" class="form-control" />
             <div *ngIf="studentForm.get('lastName')?.invalid && (studentForm.get('lastName')?.touched || studentForm.get('lastName')?.dirty)" class="error">
               <div class="text-danger" *ngIf="studentForm.get('lastName')?.errors?.['required']">Last Name is required.</div>
@@ -41,8 +41,8 @@
           </div>
 
           <!-- Display Name -->
-          <div class="form-group mb-3 d-flex align-items-center">
-            <label for="DisplayName" class="form-label me-3">Display Name</label>
+          <div class="form-group mb-3">
+            <label for="DisplayName" class="form-label">Display Name</label><span class="required-field">*</span>
             <input type="text" id="DisplayName" formControlName="displayName" class="form-control" />
             <div *ngIf="studentForm.get('displayName')?.invalid && (studentForm.get('displayName')?.touched || studentForm.get('displayName')?.dirty)" class="error">
               <div class="text-danger" *ngIf="studentForm.get('displayName')?.errors?.['required']">Display Name is required.</div>
@@ -50,8 +50,8 @@
           </div>
 
           <!-- Email -->
-          <div class="form-group mb-3 d-flex align-items-center">
-            <label for="Email" class="form-label me-3">Email</label>
+          <div class="form-group mb-3">
+            <label for="Email" class="form-label">Email</label><span class="required-field">*</span>
             <input type="email" id="Email" formControlName="email" class="form-control" />
             <div *ngIf="studentForm.get('email')?.invalid && (studentForm.get('email')?.touched || studentForm.get('email')?.dirty)" class="error">
               <div class="text-danger" *ngIf="studentForm.get('email')?.errors?.['required']">Email is required.</div>
@@ -60,8 +60,8 @@
           </div>
 
           <!-- Gender -->
-          <div class="form-group mb-3 d-flex align-items-center">
-            <label for="Gender" class="form-label me-3">Gender</label>
+          <div class="form-group mb-3">
+            <label for="Gender" class="form-label">Gender</label><span class="required-field">*</span>
             <select id="Gender" formControlName="gender" class="form-select">
               <option value="male" selected>Male</option>
               <option value="female">Female</option>
@@ -70,8 +70,8 @@
           </div>
 
           <!-- Date of Birth -->
-          <div class="form-group mb-3 d-flex align-items-center">
-            <label for="DOB" class="form-label me-3">Date of Birth</label>
+          <div class="form-group mb-3">
+            <label for="DOB" class="form-label">Date of Birth</label><span class="required-field">*</span>
             <input id="DOB" formControlName="dob" type="date" class="form-control" />
             <div *ngIf="studentForm.get('dob')?.invalid && (studentForm.get('dob')?.touched || studentForm.get('dob')?.dirty)" class="error">
               <div class="text-danger" *ngIf="studentForm.get('dob')?.errors?.['required']">DOB is required.</div>
@@ -79,8 +79,8 @@
           </div>
 
           <!-- Address -->
-          <div class="form-group mb-3 d-flex align-items-center">
-            <label for="Address" class="form-label me-3">Address</label>
+          <div class="form-group mb-3">
+            <label for="Address" class="form-label">Address</label><span class="required-field">*</span>
             <input type="text" id="Address" formControlName="address" class="form-control" />
             <div *ngIf="studentForm.get('address')?.invalid && (studentForm.get('address')?.touched || studentForm.get('address')?.dirty)" class="error">
               <div class="text-danger" *ngIf="studentForm.get('address')?.errors?.['required']">Address is required.</div>
@@ -88,8 +88,8 @@
           </div>
 
           <!-- Contact Number -->
-          <div class="form-group mb-3 d-flex align-items-center">
-            <label for="ContactNo" class="form-label me-3">Contact Number</label>
+          <div class="form-group mb-3">
+            <label for="ContactNo" class="form-label">Contact Number</label><span class="required-field">*</span>
             <input type="text" id="ContactNo" formControlName="contactNo" class="form-control" />
             <div *ngIf="studentForm.get('contactNo')?.invalid && (studentForm.get('contactNo')?.touched || studentForm.get('contactNo')?.dirty)" class="error">
               <div class="text-danger" *ngIf="studentForm.get('contactNo')?.errors?.['required']">Contact No is required.</div>
@@ -97,15 +97,16 @@
           </div>
 
           <!-- Is Enabled Checkbox -->
-          <div class="form-check mb-4 d-flex align-items-center">
-            <label for="isEnable" class="form-check-label me-3">Enabled</label>
+          <div class="form-check mb-4">
+            <label for="isEnable" class="form-check-label">Enabled</label>
             <input id="isEnable" formControlName="isEnable" type="checkbox" class="form-check-input" />
           </div>
 
-          <!-- Submit Button -->
-          <div class="text-center">
-            <button *ngIf="!exsistingStudent" type="submit" class="btn btn-primary w-100">Create</button>
-            <button *ngIf="exsistingStudent" type="submit" class="btn btn-primary w-100">Update</button>
+          <!-- Submit and Back Buttons -->
+          <div class="d-flex justify-content-between">
+            <button *ngIf="!exsistingStudent" type="submit" class="btn btn-primary">Create</button>
+            <button *ngIf="exsistingStudent" type="submit" class="btn btn-primary">Update</button>
+            <button type="button" class="btn btn-secondary" (click)="onBack()">Back</button>
           </div>
 
         </form>

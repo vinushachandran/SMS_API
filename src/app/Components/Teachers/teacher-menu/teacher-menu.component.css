@@ -1,0 +1,32 @@
+.sub-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Adds space between Add Teacher button and the status row */
+    max-width: 500px; /* Set a width to control layout */
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    
+    position: relative;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.sub-menu button {
+    width: 100%;
+}
+
+.status-container {
+    display: flex;
+    align-items: center; 
+    gap: 10px; 
+}
+
+.status-container label {
+    margin: 0;
+    white-space: nowrap; 
+}
+
+.status-container select {
+    flex-grow: 1; 
+}

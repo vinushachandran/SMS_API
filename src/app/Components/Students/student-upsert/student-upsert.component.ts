@@ -10,8 +10,8 @@ import Swal from 'sweetalert2';
   selector: 'app-student-add',
   standalone: true,
   imports: [FormsModule,ReactiveFormsModule,CommonModule,RouterOutlet],
-  templateUrl: './student-add.component.html',
-  styleUrl: './student-add.component.css'
+  templateUrl: './student-upsert.component.html',
+  styleUrl: './student-upsert.component.css'
 })
 export class StudentAddComponent {
 
@@ -26,12 +26,12 @@ export class StudentAddComponent {
     private route: ActivatedRoute) { }
 
   
-
+  //Inital loading
   ngOnInit():void{
     this.formValidation();
     const idString = this.route.snapshot.paramMap.get('id') || '0'; 
     const studentID = BigInt(idString);
-
+    // when student id is selected it have to go to edit
     if (studentID) {
       this.studentService.getStudentById(studentID).subscribe(
         data => {
@@ -48,6 +48,7 @@ export class StudentAddComponent {
 
   }
 
+  //UI form validation
   formValidation(){
     this.studentForm = this.fb.group({
       studentRegNo: ['', Validators.required],
@@ -66,7 +67,7 @@ export class StudentAddComponent {
   }
 
   
-  
+  // Submit the add or edit form
   onSubmit() {
     if (this.studentForm.valid) {
       const newstudent: Student=this.studentForm.value;
@@ -85,16 +86,13 @@ export class StudentAddComponent {
           },
           (error) => {
             Swal.fire({
-              title: 'Error!',
+              title: 'Warning!',
               text: error.error.message,
-              icon: 'error',
+              icon: 'warning',
               confirmButtonText: 'OK'
             });
-          }
-  
-          
+          }          
         );
-
       }
       else{
         this.studentService.addStudent(newstudent).subscribe(
@@ -110,18 +108,14 @@ export class StudentAddComponent {
           },
           (error) => {
             Swal.fire({
-              title: 'Error!',
+              title: 'Warning!',
               text: error.error.message,
-              icon: 'error',
+              icon: 'warning',
               confirmButtonText: 'OK'
             });
-          }
-  
-          
+          }          
         );
-
-      }
-      
+      }      
     }
     else{
       this.studentForm.markAllAsTouched();
@@ -151,6 +145,10 @@ export class StudentAddComponent {
 
   }
 
+  // Go to back to the student table
+  onBack() {
+    this.router.navigate(['/students']);
+  }
  
 
   

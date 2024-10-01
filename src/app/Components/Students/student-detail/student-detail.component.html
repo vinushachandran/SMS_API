@@ -1,42 +1,46 @@
 <div class="container mt-5" *ngIf="student">
   <h2>{{ student.displayName }}</h2>
   <table>
-      <tr>
-          <th>First Name:</th>
-          <td>{{ student.firstName }}</td>
-      </tr>
-      <tr>
-          <th>Middle Name:</th>
-          <td>{{ student.middleName }}</td>
-      </tr>
-      <tr>
-          <th>Last Name:</th>
-          <td>{{ student.lastName }}</td>
-      </tr>
-      <tr>
-          <th>Email:</th>
-          <td>{{ student.email }}</td>
-      </tr>
-      <tr>
-          <th>Gender:</th>
-          <td>{{ student.gender }}</td>
-      </tr>
-      <tr>
-          <th>Date of Birth:</th>
-          <td>{{ student.dob | date }}</td>
-      </tr>
-      <tr>
-          <th>Address:</th>
-          <td>{{ student.address }}</td>
-      </tr>
-      <tr>
-          <th>Contact No:</th>
-          <td>{{ student.contactNo }}</td>
-      </tr>
-      <tr>
-          <th>Status:</th>
-          <td><span class="status" [ngClass]="{'disabled': !student.isEnable}">{{ student.isEnable ? 'Enabled' : 'Disabled' }}</span></td>
-      </tr>
+    <tr>
+        <th>Registration No:</th>
+        <td>{{ student.studentRegNo }}</td>
+    </tr>
+    <tr>
+        <th>First Name:</th>
+        <td>{{ student.firstName }}</td>
+    </tr>
+    <tr>
+        <th>Middle Name:</th>
+        <td>{{ student.middleName }}</td>
+    </tr>
+    <tr>
+        <th>Last Name:</th>
+        <td>{{ student.lastName }}</td>
+    </tr>
+    <tr>
+        <th>Email:</th>
+        <td>{{ student.email }}</td>
+    </tr>
+    <tr>
+        <th>Gender:</th>
+        <td>{{ student.gender }}</td>
+    </tr>
+    <tr>
+        <th>Date of Birth:</th>
+        <td>{{ student.dob | date }}</td>
+    </tr>
+    <tr>
+        <th>Address:</th>
+        <td>{{ student.address }}</td>
+    </tr>
+    <tr>
+        <th>Contact No:</th>
+        <td>{{ student.contactNo }}</td>
+    </tr>
+    <tr>
+        <th>Status:</th>
+        <td><span class="status" [ngClass]="{'disabled': !student.isEnable}">{{ student.isEnable ? 'Enabled' : 'Disabled' }}</span></td>
+    </tr>
   </table>
   <button class="close-button" (click)="goBack()">Close</button>
 </div>

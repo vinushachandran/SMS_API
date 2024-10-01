@@ -1,0 +1,14 @@
+<div class="container mt-5" *ngIf="subjects">
+    <h2>{{ subjects.name }}</h2>
+    <table>
+      <tr>
+          <th>Registration No:</th>
+          <td>{{ subjects.subjectCode }}</td>
+      </tr>
+      <tr>
+          <th>Status:</th>
+          <td><span class="status" [ngClass]="{'disabled': !subjects.isEnable}">{{ subjects.isEnable ? 'Enabled' : 'Disabled' }}</span></td>
+      </tr>
+    </table>
+    <button class="close-button" (click)="goBack()">Close</button>
+  </div>

@@ -1,8 +1,8 @@
-<h2 class="mb-4">Student List</h2>
+<h2 class="mb-4">Teacher List</h2>
 <div class="container-fluid mt-5">
   <div class="row">
       <div class="col-md-3">
-          <app-student-menu></app-student-menu>
+          <app-teacher-menu></app-teacher-menu>
       </div>
       <div class="col-md-9 table-body">
         <div class="row mb-3">
@@ -10,8 +10,8 @@
             <div class="col-md-3">
               <select class="criteriaSelection" (change)="optionChange($event,searchTerm)">
                 <option value="all">All</option>
-                <option value="StudentReg">Student Reg Number</option>
-                <option value="DisplayName">Display Name</option>
+                <option value="TeacherReg">Registration No</option>
+                <option value="DisplayName">Dispaly Name</option>
               </select>
             </div>
         
@@ -24,8 +24,8 @@
           <table class="table table-striped table-bordered table-hover">
               <thead class="thead-dark">
                   <tr>
-                      <th>Reg No</th>
-                      <th>Display Name</th>
+                      <th>Teacher Reg No</th>
+                      <th>Full Name</th>
                       <th>Email</th>
                       <th>Gender</th>
                       <th>Date of Birth</th>
@@ -35,47 +35,47 @@
                   </tr>
               </thead>
               <tbody>
-                  <tr *ngFor="let student of students">
-                      <td>{{ student.studentRegNo }}</td>
-                      <td>{{ student.displayName }}</td>
+                  <tr *ngFor="let teacher of teachers">
+                      <td>{{ teacher.teacherRegNo }}</td>
+                      <td>{{ teacher.displayName }}</td>
                       <td>
                           <i class="bi bi-envelope cursor-pointer text-primary"
-                             (click)="copyText(student.email, $event)"
-                             title="{{ student.email }}"
+                             (click)="copyText(teacher.email, $event)"
+                             title="{{ teacher.email }}"
                              data-bs-toggle="tooltip"></i>
                       </td>
-                      <td>{{ student.gender }}</td>
-                      <td>{{ student.dob | date:'yyyy-MM-dd' }}</td>
+                      <td>{{ teacher.gender }}</td>
+                      <td>{{ teacher.dob | date:'yyyy-MM-dd' }}</td>
                       <td>
                           <i class="bi bi-telephone cursor-pointer text-primary"
-                             (click)="copyText(student.contactNo, $event)"
-                             title="{{ student.contactNo }}"
+                             (click)="copyText(teacher.contactNo, $event)"
+                             title="{{ teacher.contactNo }}"
                              data-bs-toggle="tooltip"></i>
                       </td>
                       <td>
-                        <button type="button" class="btn btn-sm" (click)="toggleStudentStatus(student)">
-                          <i [ngClass]="{'bi bi-toggle-on text-success': student.isEnable, 'bi bi-toggle-off text-danger': !student.isEnable}"></i>
+                        <button type="button" class="btn btn-sm" (click)="toggleTeacherStatus(teacher)">
+                          <i [ngClass]="{'bi bi-toggle-on text-success': teacher.isEnable, 'bi bi-toggle-off text-danger': !teacher.isEnable}"></i>
                         </button>
                       </td>
                       
                       <td>
                           <button type="button" class="btn btn-sm btn-primary">
                               <!-- event binding -->
-                              <i class="bi bi-pencil-fill" (click)="navigateToAddStudent(student.studentID)"></i>
+                              <i class="bi bi-pencil-fill" (click)="navigateToAddTeacher(teacher.teacherID)"></i>
                               
                           </button>
                           <!-- event binding -->
-                          <button type="button" class="btn btn-sm btn-danger" (click)="deleteStudent(student.studentID)">
+                          <button type="button" class="btn btn-sm btn-danger" (click)="deleteTeacher(teacher.teacherID)">
                               <i class="bi bi-trash"></i>
                           </button>
                           <!-- property binding -->
                           <button type="button" class="btn btn-sm btn-info m-1">
-                              <i class="bi bi-three-dots-vertical" [routerLink]="['/students', student.studentID]"></i>
+                              <i class="bi bi-three-dots-vertical" [routerLink]="['/teachers', teacher.teacherID]"></i>
                           </button>
                       </td>
                   </tr>
                   <tr>
-                    <td *ngIf="noDataFound" colspan="8" class="text-center">No Student Found</td>
+                    <td *ngIf="noDataFound" colspan="8" class="text-center">No Teacher Found</td>
                   </tr>
                   
               </tbody>

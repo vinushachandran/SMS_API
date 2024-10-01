@@ -1,3 +1,3 @@
 export const baseURL={
-    apiUrl:'https://localhost:7014/'
+    apiUrl:'http://localhost:313/'
 };

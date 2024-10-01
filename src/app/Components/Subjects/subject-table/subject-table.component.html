@@ -1,0 +1,74 @@
+<h2 class="mb-4">Subject List</h2>
+<div class="container-fluid mt-5">
+  <div class="row">
+    <div class="col-md-3">
+      <app-subject-menu></app-subject-menu> <!-- Update to subject menu -->
+    </div>
+    <div class="col-md-9 table-body">
+      <div class="row mb-3">
+        <!-- Search Criteria Dropdown -->
+        <div class="col-md-3">
+          <select class="criteriaSelection" (change)="optionChange($event,searchTerm)">
+            <option value="all">All</option>
+            <option value="SubjectCode">Subject Code</option>
+            <option value="SubjectName">Subject Name</option>
+          </select>
+        </div>
+
+        <!-- Search Input -->
+        <div class="col-md-6">
+          <input type="text" class="form-control" placeholder="Search..." #searchTerm (input)="termChange($event)" />
+        </div>
+      </div>
+
+      <table class="table table-striped table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>Subject Code</th>
+            <th>Subject Name</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let subject of subjects">
+            <td>{{ subject.subjectCode }}</td>
+            <td>{{ subject.name }}</td>
+            
+            <td>
+              <button type="button" class="btn btn-sm" (click)="toggleSubjectStatus(subject)">
+                <i [ngClass]="{'bi bi-toggle-on text-success': subject.isEnable, 'bi bi-toggle-off text-danger': !subject.isEnable}"></i>
+              </button>
+            </td>
+            <td>
+              <button type="button" class="btn btn-sm btn-primary">
+                <!-- event binding -->
+                <i class="bi bi-pencil-fill" (click)="navigateToAddSubject(subject.subjectID)"></i>
+              </button>
+              <!-- event binding -->
+              <button type="button" class="btn btn-sm btn-danger" (click)="deleteSubject(subject.subjectID)">
+                <i class="bi bi-trash"></i>
+              </button>
+              <!-- property binding -->
+              <button type="button" class="btn btn-sm btn-info m-1">
+                <i class="bi bi-three-dots-vertical" [routerLink]="['/subjects', subject.subjectID]"></i>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td *ngIf="noDataFound" colspan="6" class="text-center">No Subject Found</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="d-flex justify-content-between mt-3">
+        <!-- event binding -->
+        <button (click)="goToPreviousPage(currentPage)" [disabled]="currentPage === 1" class="btn btn-primary">Previous</button>
+        <!-- interpolation binding -->
+        <span>Page {{ currentPage }} of {{ totalPage }}</span>
+        <!-- event binding -->
+        <button (click)="goToNextPage(currentPage)" [disabled]="currentPage === totalPage" class="btn btn-primary">Next</button>
+      </div>
+    </div>
+  </div>
+</div>

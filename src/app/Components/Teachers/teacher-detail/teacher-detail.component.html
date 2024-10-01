@@ -1,0 +1,46 @@
+<div class="container mt-5" *ngIf="teacher">
+    <h2>{{ teacher.displayName }}</h2>
+    <table>
+        <tr>
+            <th>Registration No:</th>
+            <td>{{ teacher.teacherRegNo }}</td>
+        </tr>
+        <tr>
+            <th>First Name:</th>
+            <td>{{ teacher.firstName }}</td>
+        </tr>
+        <tr>
+            <th>Middle Name:</th>
+            <td>{{ teacher.middleName }}</td>
+        </tr>
+        <tr>
+            <th>Last Name:</th>
+            <td>{{ teacher.lastName }}</td>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <td>{{ teacher.email }}</td>
+        </tr>
+        <tr>
+            <th>Gender:</th>
+            <td>{{ teacher.gender }}</td>
+        </tr>
+        <tr>
+            <th>Date of Birth:</th>
+            <td>{{ teacher.dob | date }}</td>
+        </tr>
+        <tr>
+            <th>Address:</th>
+            <td>{{ teacher.address }}</td>
+        </tr>
+        <tr>
+            <th>Contact No:</th>
+            <td>{{ teacher.contactNo }}</td>
+        </tr>
+        <tr>
+            <th>Status:</th>
+            <td><span class="status" [ngClass]="{'disabled': !teacher.isEnable}">{{ teacher.isEnable ? 'Enabled' : 'Disabled' }}</span></td>
+        </tr>
+    </table>
+    <button class="close-button" (click)="goBack()">Close</button>
+  </div>

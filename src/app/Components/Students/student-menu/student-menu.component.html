@@ -3,10 +3,20 @@
 
   <div class="status-container">
     <label>Status</label>
-    <select (change)="ActiveFilter($event)">
+    <select (change)="ActiveFilter($event)" [value]="activeStatus">
       <option value="">All</option>
       <option value="true">Active</option>
       <option value="false">Inactive</option>
+    </select>
+  </div>
+
+  <div class="status-container">
+    <label  for="">Data Count</label>
+    <select (change)="pageFilter($event)" [value]="activePageSize">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="15">15</option>
+      <option value="25">20</option>
     </select>
   </div>
 </div>
