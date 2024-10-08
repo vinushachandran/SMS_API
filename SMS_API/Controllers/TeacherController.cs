@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿/// <summary>
+/// <author>Vinusha</author>
+/// <date>07 October 2024</date> 
+/// <Purpose>This file implements the TeacherController class to handle teacher-related API operations.</Purpose> 
+/// </summary>
 using Microsoft.AspNetCore.Mvc;
 using SMS.BL.Teacher.Interface;
 using SMS.Model.Teacher;
+using SMS.ViewModel.StaticData;
 using SMS.ViewModel.Teacher;
 
 namespace SMS_API.Controllers
@@ -23,22 +28,31 @@ namespace SMS_API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("GetAllTeachers")]
-        public IActionResult GetAllTeacherList([FromQuery] bool? isActive)
+        public IActionResult GetAllTeacherList([FromQuery] int pageNumber, int numberOfRecoards, bool? isActive)
         {
-            var response = _teacherRepository.GetAllTeachers(isActive);
+            var response = _teacherRepository.GetAllTeachers(pageNumber,numberOfRecoards, isActive);
+            try
+            {
+                var viewModel = new TeacherViewModel
+                {
+                    TeachersList = response.Data,
+                    totalPages = response.TotalPages
 
-            var viewModel = new TeacherViewModel
-            {
-                TeachersList = response.Data
-            };
-            if (response.Success)
-            {
-                return Ok(viewModel);
+                };
+                if (response.Success)
+                {
+                    return Ok(viewModel);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_NOTFOUND, response);
+                }
             }
-            else
+            catch
             {
-                return StatusCode(500, response.Message);
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
+            
         }
 
         /// <summary>
@@ -52,18 +66,27 @@ namespace SMS_API.Controllers
         {
             var response = _teacherRepository.GetOneTeacher(id);
 
-            var viewModel = new TeacherViewModel
+            try
             {
-                TeacherDetail = response.Data
-            };
-            if (response.Success)
-            {
-                return Ok(viewModel);
+                var viewModel = new TeacherViewModel
+                {
+                    TeacherDetail = response.Data
+                };
+                if (response.Success)
+                {
+                    return Ok(viewModel);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_NOTFOUND, response);
+                }
             }
-            else
+            catch
             {
-                return StatusCode(500, response.Message);
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
+
+            
         }
 
         /// <summary>
@@ -76,15 +99,23 @@ namespace SMS_API.Controllers
         public IActionResult DeleteTeacher(int id)
         {
             var response = _teacherRepository.DeleteTeacher(id);
+            try
+            {
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_NOTFOUND, response);
+                }
+            }
+            catch
+            {
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
+            }
 
-            if (response.Success)
-            {
-                return Ok(response.TotalMessages);
-            }
-            else
-            {
-                return StatusCode(500, response.Message);
-            }
+            
         }
 
 
@@ -98,14 +129,22 @@ namespace SMS_API.Controllers
         public IActionResult AddNewTeacher([FromQuery] TeacherBO teacher)
         {
             var response = _teacherRepository.AddTeacher(teacher);
-            if (response.Success)
+            try
             {
-                return Ok(response.TotalMessages);
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_VALIDATION, response);
+                }
             }
-            else
+            catch
             {
-                return StatusCode(500, response.Message);
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
+            
         }
 
         /// <summary>
@@ -118,15 +157,22 @@ namespace SMS_API.Controllers
         public IActionResult UpdateTeacher([FromQuery] TeacherBO teacher)
         {
             var response = _teacherRepository.UpdateTeacherDetails(teacher);
-
-            if (response.Success)
+            try
             {
-                return Ok(response.TotalMessages);
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_VALIDATION, response);
+                }
             }
-            else
+            catch
             {
-                return StatusCode(500, response.Message);
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
+            
         }
 
 
@@ -139,15 +185,23 @@ namespace SMS_API.Controllers
         public IActionResult GetSearchTeachers([FromQuery] TeacherSearchViewModel teacherSearchViewModel)
         {
             var response = _teacherRepository.GetSearchTeachers(teacherSearchViewModel);
+            try
+            {
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_NOTFOUND, response);
+                }
+            }
+            catch
+            {
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
+            }
 
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            else
-            {
-                return StatusCode(500, response.Message);
-            }
+            
         }
 
         [HttpPut]
@@ -156,14 +210,23 @@ namespace SMS_API.Controllers
         {
             var response = _teacherRepository.ToggleEnableTeacher(id, isEnable);
 
-            if (response.Success)
+            try
             {
-                return Ok(response.TotalMessages);
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_NOTFOUND, response);
+                }
             }
-            else
+            catch
             {
-                return StatusCode(500, response.Message);
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
+                        
         }
 
 

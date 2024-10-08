@@ -9,9 +9,9 @@ namespace SMS.ViewModel.Allocation
 {
     public class SubjectAllocationGroupBySubjectViewModel
     {
-        [DisplayName("Teacher Name")]
+        public long? SubjectID { get; set; }
         public string SubjectName { get; set; }
-        [DisplayName("Teacher Reg No")]
+
         public string SubjectCode { get; set; }
 
         public IEnumerable<SubjectAllocationViewModel> SubjectAllocations { get; set; }

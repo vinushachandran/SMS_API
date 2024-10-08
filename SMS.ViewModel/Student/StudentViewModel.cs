@@ -24,6 +24,10 @@ namespace SMS.ViewModel.Student
         /// </summary>
         public bool? IsActive { get; set; }
 
+        public int? totalPages {  get; set; }
+
+
+
 
     }
 }

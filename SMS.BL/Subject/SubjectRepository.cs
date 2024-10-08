@@ -1,15 +1,15 @@
-﻿using SMS.BL.Subject.Interface;
+﻿/// <summary>
+/// <author>Vinusha</author>
+/// <date>07 October 2024</date> 
+/// <Purpose>This file implements the SubjectRepository class to handle subject-related operations.</Purpose> 
+/// </summary>
+using SMS.BL.Subject.Interface;
 using SMS.Data;
 using SMS.Model.Subject;
-using SMS.Model.Teacher;
 using SMS.ViewModel.RepositoryResponse;
 using SMS.ViewModel.StaticData;
 using SMS.ViewModel.Subject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SMS.BL.Subject
 {
@@ -27,7 +27,7 @@ namespace SMS.BL.Subject
         /// </summary>
         /// <param name="isActive"></param>
         /// <returns></returns>
-        public RepositoryResponse<IEnumerable<SubjectBO>> GetAllSubjects(bool? isActive = null)
+        public RepositoryResponse<IEnumerable<SubjectBO>> GetAllSubjects(int pageNumber, int numberOfRecoards, bool? isActive = null)
         {
             var response = new RepositoryResponse<IEnumerable<SubjectBO>>();
             try
@@ -45,11 +45,12 @@ namespace SMS.BL.Subject
                     allSubjects = allSubjects.Where(s => s.IsEnable == isActive.Value);
                 }
 
-                response.Data = allSubjects;
+                var totalSubjectsCount = allSubjects.Count();
+                response.TotalPages = (int)Math.Ceiling((double)totalSubjectsCount / numberOfRecoards);
+                response.Data = allSubjects.Skip((pageNumber - 1) * numberOfRecoards).Take(numberOfRecoards).ToList();
 
-                if (response.Data != null)
-                {
-                    response.Success = true;
+                if (response.Data.Any())
+                {                  
                     response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "get all subjects"));
                     return response;
                 }
@@ -58,7 +59,7 @@ namespace SMS.BL.Subject
                 response.Message.Add(string.Format(StaticData.NO_DATA_FOUND, "subjects"));
                 return response;
             }
-            catch (Exception ex)
+            catch
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "Subjects"));
@@ -89,8 +90,7 @@ namespace SMS.BL.Subject
                 response.Data = oneSubject;
 
                 if (response.Data != null)
-                {
-                    response.Success = true;
+                {                  
                     response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "get this subject"));
                     return response;
                 }
@@ -98,7 +98,7 @@ namespace SMS.BL.Subject
                 response.Message.Add(string.Format(StaticData.NO_DATA_FOUND, "subject"));
                 return response;
             }
-            catch (Exception ex)
+            catch 
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "get one subject's detail"));
@@ -115,7 +115,7 @@ namespace SMS.BL.Subject
         {
             var response = new RepositoryResponse<bool>();
 
-            response.Data = _dataContext.Teacher_Subject_Allocation.Any(s => s.SubjectID == id);
+            response.Success = _dataContext.Teacher_Subject_Allocation.Any(s => s.SubjectID == id);
             return response;
         }
 
@@ -131,7 +131,7 @@ namespace SMS.BL.Subject
             try
             {
                 var subject = _dataContext.Subject.SingleOrDefault(s => s.SubjectID == id);
-                bool isSubjectUsed = IsSubjectAllocated(id).Data;
+                bool isSubjectUsed = IsSubjectAllocated(id).Success;
 
                 if (subject != null)
                 {
@@ -146,8 +146,7 @@ namespace SMS.BL.Subject
                         else
                         {
                             _dataContext.Subject.Remove(subject);
-                            _dataContext.SaveChanges();
-                            response.Success = true;
+                            _dataContext.SaveChanges();                            
                             response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "delete the subject"));
                             return response;
                         }
@@ -155,8 +154,7 @@ namespace SMS.BL.Subject
                     else
                     {
                         _dataContext.Subject.Remove(subject);
-                        _dataContext.SaveChanges();
-                        response.Success = true;
+                        _dataContext.SaveChanges();                        
                         response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "delete the subject"));
                         return response;
                     }
@@ -168,7 +166,7 @@ namespace SMS.BL.Subject
                     return response;
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "delete the subject's detail"));
@@ -184,7 +182,7 @@ namespace SMS.BL.Subject
         public RepositoryResponse<bool> IsSubjectCodeInUse(string subjectCode)
         {
             var response = new RepositoryResponse<bool>();
-            response.Data = _dataContext.Subject.Any(s => s.SubjectCode == subjectCode);
+            response.Success = _dataContext.Subject.Any(s => s.SubjectCode == subjectCode);
             return response;
         }
 
@@ -196,7 +194,7 @@ namespace SMS.BL.Subject
         public RepositoryResponse<bool> IsSubjectNameInUse(string subjectName)
         {
             var response = new RepositoryResponse<bool>();
-            response.Data = _dataContext.Subject.Any(s => s.Name == subjectName);
+            response.Success = _dataContext.Subject.Any(s => s.Name == subjectName);
             return response;
         }
 
@@ -208,8 +206,8 @@ namespace SMS.BL.Subject
         public RepositoryResponse<bool> AddSubject(SubjectBO subject)
         {
             var response = new RepositoryResponse<bool>();
-            bool isSubjectCodeInUse = IsSubjectCodeInUse(subject.SubjectCode).Data;
-            bool isSubjectNameInUse = IsSubjectNameInUse(subject.Name).Data;
+            bool isSubjectCodeInUse = IsSubjectCodeInUse(subject.SubjectCode).Success;
+            bool isSubjectNameInUse = IsSubjectNameInUse(subject.Name).Success;
 
             try
             {
@@ -236,14 +234,13 @@ namespace SMS.BL.Subject
                             IsEnable = subject.IsEnable
                         };
                         _dataContext.Subject.Add(newSubject);
-                        _dataContext.SaveChanges();
-                        response.Success = true;
+                        _dataContext.SaveChanges();                        
                         response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "add a new subject"));
                         return response;
                     }
                 }
             }
-            catch (Exception ex)
+            catch 
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "add one subject's detail"));
@@ -261,7 +258,7 @@ namespace SMS.BL.Subject
         public RepositoryResponse<bool> CheckSubjectCodeById(string subjectCode, long? subjectId)
         {
             var response = new RepositoryResponse<bool>();
-            response.Data = _dataContext.Subject.Any(s => s.SubjectCode == subjectCode && s.SubjectID != subjectId);
+            response.Success = _dataContext.Subject.Any(s => s.SubjectCode == subjectCode && s.SubjectID != subjectId);
             return response;
         }
 
@@ -274,7 +271,7 @@ namespace SMS.BL.Subject
         public RepositoryResponse<bool> CheckSubjectNameById(string subjectName, long? subjectId)
         {
             var response = new RepositoryResponse<bool>();
-            response.Data = _dataContext.Subject.Any(s => s.Name == subjectName && s.SubjectID != subjectId);
+            response.Success = _dataContext.Subject.Any(s => s.Name == subjectName && s.SubjectID != subjectId);
             return response;
         }
 
@@ -287,17 +284,16 @@ namespace SMS.BL.Subject
         public RepositoryResponse<bool> UpdateSubjectDetails(SubjectBO subject)
         {
             var response = new RepositoryResponse<bool>();
-
-            bool checkSubjectExists = _dataContext.Subject.Any(s => s.SubjectID == subject.SubjectID);
-            bool checkSubjectInUse = IsSubjectAllocated(subject.SubjectID).Data;
-            bool checkSubjectCodeAvailable = CheckSubjectCodeById(subject.SubjectCode, subject.SubjectID).Data;
-            bool checkSubjectNameAvailable = CheckSubjectNameById(subject.Name, subject.SubjectID).Data;
+                        
+            bool checkSubjectInUse = IsSubjectAllocated(subject.SubjectID).Success;
+            bool checkSubjectCodeAvailable = CheckSubjectCodeById(subject.SubjectCode, subject.SubjectID).Success;
+            bool checkSubjectNameAvailable = CheckSubjectNameById(subject.Name, subject.SubjectID).Success;
 
             var editSubject = _dataContext.Subject.SingleOrDefault(s => s.SubjectID == subject.SubjectID);
 
             try
             {
-                if (checkSubjectExists)
+                if (editSubject!=null)
                 {
 
                     if (checkSubjectInUse)
@@ -325,8 +321,7 @@ namespace SMS.BL.Subject
                     editSubject.Name = subject.Name;
                     editSubject.IsEnable = subject.IsEnable;
                     _dataContext.SaveChanges();
-
-                    response.Success = true;
+                                        
                     response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "update subject details"));
                     return response;
                 }
@@ -335,7 +330,7 @@ namespace SMS.BL.Subject
                 response.Message.Add(string.Format(StaticData.NO_DATA_FOUND, "subjects"));
                 return response;
             }
-            catch (Exception ex)
+            catch 
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "update subject details"));
@@ -351,7 +346,7 @@ namespace SMS.BL.Subject
         public RepositoryResponse<IEnumerable<SubjectBO>> GetSearchSubjects(SubjectSearchViewModel subjectSearchViewModel)
         {
             var response = new RepositoryResponse<IEnumerable<SubjectBO>>();
-            var allSubjects = GetAllSubjects();
+            var allSubjects = GetAllSubjects(1,5);
 
             try
             {
@@ -378,8 +373,7 @@ namespace SMS.BL.Subject
                 response.Data = allSubjects.Data;
 
                 if (response.Data.Any())
-                {
-                    response.Success = true;
+                {                    
                     response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "search subjects"));
                     return response;
                 }
@@ -390,7 +384,7 @@ namespace SMS.BL.Subject
                     return response;
                 }
             }
-            catch (Exception ex)
+            catch 
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "search subjects detail"));
@@ -409,7 +403,7 @@ namespace SMS.BL.Subject
         {
             var response = new RepositoryResponse<bool>();
             var subject = _dataContext.Subject.SingleOrDefault(s => s.SubjectID == id);
-            bool isSubjectUsed = IsSubjectAllocated(id).Data;
+            bool isSubjectUsed = IsSubjectAllocated(id).Success;
 
             try
             {
@@ -426,8 +420,7 @@ namespace SMS.BL.Subject
                                 return response;
                             }
                             subject.IsEnable = true;
-                            _dataContext.SaveChanges();
-                            response.Success = true;
+                            _dataContext.SaveChanges();                           
                             response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "enabled subject"));
                             return response;
                         }
@@ -440,8 +433,7 @@ namespace SMS.BL.Subject
                                 return response;
                             }
                             subject.IsEnable = false;
-                            _dataContext.SaveChanges();
-                            response.Success = true;
+                            _dataContext.SaveChanges();                            
                             response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "disabled subject"));
                             return response;
                         }
@@ -457,7 +449,7 @@ namespace SMS.BL.Subject
                     return response;
                 }
             }
-            catch (Exception ex)
+            catch 
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "toggle subject's status"));

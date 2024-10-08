@@ -20,7 +20,7 @@ namespace SMS.BL.Student.Interface
         /// Get all student Details
         /// </summary>
         /// <returns></returns>
-        RepositoryResponse<IEnumerable<StudentBO>> GetAllStudents(bool? isActive = null);
+        RepositoryResponse<IEnumerable<StudentBO>> GetAllStudents(int pageNumber,int numberOfRecoards, bool? isActive = null);
 
 
         /// <summary>

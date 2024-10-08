@@ -1,13 +1,12 @@
 ﻿/// <summary>
-///
-/// </summary>
 /// <author>Vinusha</author>
-///
-using Azure;
-using Microsoft.AspNetCore.Http;
+/// <date>07 October 2024</date> 
+/// <Purpose>This file implements the StudentController class to handle student-related API operations.</Purpose> 
+/// </summary>
 using Microsoft.AspNetCore.Mvc;
 using SMS.BL.Student.Interface;
 using SMS.Model.Student;
+using SMS.ViewModel.StaticData;
 using SMS.ViewModel.Student;
 
 namespace SMS_API.Controllers
@@ -30,22 +29,32 @@ namespace SMS_API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("GetAllStudents")]
-        public IActionResult GetAllStudentList([FromQuery]bool? isActive)
+        public IActionResult GetAllStudentList([FromQuery] int pageNumber, int numberOfRecoards, bool? isActive)
         {
-            var response=_studentRepository.GetAllStudents(isActive);
+            var response=_studentRepository.GetAllStudents(pageNumber,numberOfRecoards,isActive);
+            try
+            {
+                var viewModel = new StudentViewModel
+                {
+                    AllStudentsList = response.Data,
+                    totalPages = response.TotalPages
 
-            var viewModel = new StudentViewModel
-            {
-                AllStudentsList = response.Data
-            };
-            if (response.Success)
-            {
-                return Ok(viewModel);
+                };
+                if (response.Success)
+                {
+                    return Ok(viewModel);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_NOTFOUND, response);
+                }
             }
-            else
+            catch 
             {
-                return StatusCode(500,response.Message);
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
+
+            
         }
 
         /// <summary>
@@ -59,18 +68,27 @@ namespace SMS_API.Controllers
         {
             var response = _studentRepository.GetOneStudent(id);
 
-            var viewModel = new StudentViewModel
+            try
             {
-                StudentDetail = response.Data
-            };
-            if (response.Success)
-            {
-                return Ok(viewModel);
+                var viewModel = new StudentViewModel
+                {
+                    StudentDetail = response.Data
+                };
+                if (response.Success)
+                {
+                    return Ok(viewModel);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_NOTFOUND, response);
+                }
             }
-            else
+            catch
             {
-                return StatusCode(500, response.Message);
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
+
+            
 
         }
 
@@ -85,15 +103,23 @@ namespace SMS_API.Controllers
         public IActionResult DeleteStudent(int id)
         {
             var response=_studentRepository.DeleteStudent(id);
+            try
+            {
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_NOTFOUND, response);
+                }
+            }
+            catch
+            {
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
+            }
 
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            else
-            {
-                return StatusCode(500, response);
-            }
+            
 
         }
 
@@ -107,14 +133,22 @@ namespace SMS_API.Controllers
         public IActionResult AddNewStudent([FromQuery]StudentBO student)
         {
             var response=_studentRepository.AddStudent(student);
-            if (response.Success)
+            try
             {
-                return Ok(response);
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_VALIDATION, response);
+                }
             }
-            else
+            catch
             {
-                return StatusCode(500, response);
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
+            
 
         }
 
@@ -128,15 +162,23 @@ namespace SMS_API.Controllers
         public IActionResult UpdateStudent([FromQuery]StudentBO student)
         {
             var response=_studentRepository.UpdateStudentDetails(student);
+            try
+            {
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_VALIDATION, response);
+                }
+            }
+            catch
+            {
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
+            }
 
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            else
-            {
-                return StatusCode(500, response);
-            }
+            
 
         }
 
@@ -150,31 +192,54 @@ namespace SMS_API.Controllers
         public IActionResult GetSearchStudents([FromQuery] StudentSearchViewModel studentSearchViewModel)
         {
             var response = _studentRepository.GetSearchStudents(studentSearchViewModel);
+            try
+            {
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_NOTFOUND, response);
+                }
+            }
+            catch
+            {
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
+            }
 
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            else
-            {
-                return StatusCode(500, response.Message);
-            }
+           
         }
 
+        /// <summary>
+        /// toggle enable
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isEnable"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("TogleStudentStatus")]
         public IActionResult ToggleStatusOfStudent([FromQuery] int id, bool isEnable)
         {
             var response = _studentRepository.ToggleEnable(id,isEnable);
 
-            if (response.Success)
+            try
             {
-                return Ok(response);
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_NOTFOUND, response);
+                }
             }
-            else
+            catch
             {
-                return StatusCode(500, response.Message);
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
+
+           
         }
 
     }

@@ -1,20 +1,14 @@
 ﻿/// <summary>
-///
-/// </summary>
 /// <author>Vinusha</author>
-///
-using Azure;
+/// <date>07 October 2024</date> 
+/// <Purpose>This file implements the StudentRepository class to handle student-related operations.</Purpose> 
+/// </summary>
 using SMS.BL.Student.Interface;
 using SMS.Data;
 using SMS.Model.Student;
 using SMS.ViewModel.RepositoryResponse;
 using SMS.ViewModel.StaticData;
 using SMS.ViewModel.Student;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SMS.BL.Student
 {
@@ -31,7 +25,7 @@ namespace SMS.BL.Student
         /// Get all students details
         /// </summary>
         /// <returns></returns>
-        public RepositoryResponse<IEnumerable<StudentBO>> GetAllStudents(bool? isActive=null)
+        public RepositoryResponse<IEnumerable<StudentBO>> GetAllStudents(int pageNumber, int numberOfRecoards, bool? isActive=null)
         {
             var response=new RepositoryResponse<IEnumerable<StudentBO>>();
             try
@@ -57,16 +51,15 @@ namespace SMS.BL.Student
                     allStudents=allStudents.Where(s=>s.IsEnable==isActive.Value);
 
                 }
-
-                response.Data = allStudents;
+                var totalStudentsCount=allStudents.Count();
+                response.TotalPages= (int)Math.Ceiling((double)totalStudentsCount/numberOfRecoards);
+                response.Data = allStudents.Skip((pageNumber-1)*numberOfRecoards).Take(numberOfRecoards).ToList();
 
                 
 
-                if(response.Data != null)
+                if(response.Data.Any())
                 {
-                    response.Success = true;
                     response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "get all students"));
-
                     return response;
                 }
                 response.Success = false;
@@ -74,14 +67,12 @@ namespace SMS.BL.Student
                 return response;
 
             }
-            catch(Exception ex)
+            catch
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "Students"));
                 return response ;
-            }
-
-           
+            }          
 
         }
 
@@ -116,21 +107,15 @@ namespace SMS.BL.Student
                 response.Data = oneStudent;
 
                 if (response.Data != null)
-                {
-                    response.Success = true;
+                {                    
                     response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "get this student"));
-
                     return response;
                 }
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.NO_DATA_FOUND,"student"));
                 return response;
-
-
-
-
             }
-            catch(Exception ex)
+            catch
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "get one students detail"));
@@ -149,7 +134,7 @@ namespace SMS.BL.Student
         {
             var response = new RepositoryResponse<bool>();
 
-            response.Data = _dataContext.Student_Subject_Teacher_Allocation.Any(s => s.StudentID == id);
+            response.Success = _dataContext.Student_Subject_Teacher_Allocation.Any(s => s.StudentID == id);
             return response;
 
 
@@ -166,11 +151,11 @@ namespace SMS.BL.Student
             try
             {
                 var student = _dataContext.Student.SingleOrDefault(s => s.StudentID == id);
-                bool isStudentUsed=ISStudentAllocated(id).Data;
+                bool isStudentUsed=ISStudentAllocated(id).Success;
 
                 if (student != null)
                 {
-                    if(student.IsEnable==true)
+                    if(student.IsEnable)
                     {
                         if (isStudentUsed)
                         {
@@ -181,8 +166,7 @@ namespace SMS.BL.Student
                         else
                         {                            
                             _dataContext.Student.Remove(student);
-                            _dataContext.SaveChanges();
-                            response.Success = true;
+                            _dataContext.SaveChanges();                         
                             response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "delete the student"));
                             return response;
 
@@ -191,8 +175,7 @@ namespace SMS.BL.Student
                     else
                     {
                         _dataContext.Student.Remove(student);
-                        _dataContext.SaveChanges();
-                        response.Success = true;
+                        _dataContext.SaveChanges();                        
                         response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "delete the student"));
                         return response;
                     }
@@ -208,7 +191,7 @@ namespace SMS.BL.Student
                 }
 
             }
-            catch (Exception ex)
+            catch 
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "delete the students detail"));
@@ -225,7 +208,7 @@ namespace SMS.BL.Student
         public RepositoryResponse<bool> ISStudentRegNoInUse(string studentRegNo)
         {
             var response = new RepositoryResponse<bool>();
-            response.Data=_dataContext.Student.Any(s=>s.StudentRegNo == studentRegNo);
+            response.Success=_dataContext.Student.Any(s=>s.StudentRegNo == studentRegNo);
             return response;
 
         }
@@ -237,7 +220,7 @@ namespace SMS.BL.Student
         public RepositoryResponse<bool> ISStudentNameInUse(string studentName)
         {
             var response = new RepositoryResponse<bool>();
-            response.Data= _dataContext.Student.Any(s=>s.DisplayName == studentName);  
+            response.Success= _dataContext.Student.Any(s=>s.DisplayName == studentName);  
             return response;
 
         }
@@ -250,7 +233,7 @@ namespace SMS.BL.Student
         public RepositoryResponse<bool> ISStudentEmailInUse(string studentEmail)
         {
             var response = new RepositoryResponse<bool>();
-            response.Data = _dataContext.Student.Any(s=> s.Email == studentEmail);
+            response.Success = _dataContext.Student.Any(s=> s.Email == studentEmail);
             return response;
 
         }
@@ -264,9 +247,9 @@ namespace SMS.BL.Student
         public RepositoryResponse<bool> AddStudent(StudentBO student)
         {
             var response = new RepositoryResponse<bool>();
-            bool isStudentRegNoInUse = ISStudentRegNoInUse(student.StudentRegNo).Data;
-            bool isStudentNameInUse = ISStudentNameInUse(student.DisplayName).Data;
-            bool isStudentEmailInUse = ISStudentEmailInUse(student.Email).Data;
+            bool isStudentRegNoInUse = ISStudentRegNoInUse(student.StudentRegNo).Success;
+            bool isStudentNameInUse = ISStudentNameInUse(student.DisplayName).Success;
+            bool isStudentEmailInUse = ISStudentEmailInUse(student.Email). Success;
 
             try
             {
@@ -289,7 +272,7 @@ namespace SMS.BL.Student
                         if (isStudentEmailInUse)
                         {
                             response.Success = false;
-                            response.Message.Add(string.Format("Student Display name already exsist!"));
+                            response.Message.Add(string.Format("Student Email already exsist!"));
                             return response;
                         }
                         else
@@ -307,8 +290,7 @@ namespace SMS.BL.Student
                             newStudent.ContactNo= student.ContactNo;
                             newStudent.IsEnable= student.IsEnable;
                             _dataContext.Student.Add(newStudent);
-                            _dataContext.SaveChanges();
-                            response.Success = true;
+                            _dataContext.SaveChanges();                            
                             response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "add a new student"));
                             return response;
                         }
@@ -316,7 +298,7 @@ namespace SMS.BL.Student
                 }            
                
             }
-            catch (Exception ex)
+            catch
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "add one students detail"));
@@ -333,7 +315,7 @@ namespace SMS.BL.Student
         public RepositoryResponse<bool> CheckStudentRegNoById(string studentRegNo, long? studentId)
         {
             var response = new RepositoryResponse<bool>();
-            response.Data = _dataContext.Student.Any(s => s.StudentRegNo == studentRegNo && s.StudentID!=studentId);
+            response.Success = _dataContext.Student.Any(s => s.StudentRegNo == studentRegNo && s.StudentID!=studentId);
             return response;
         }
 
@@ -346,7 +328,7 @@ namespace SMS.BL.Student
         public RepositoryResponse<bool> CheckStudentNameById(string studentName, long? studentId)
         {
             var response = new RepositoryResponse<bool>();
-            response.Data = _dataContext.Student.Any(s => s.DisplayName == studentName && s.StudentID != studentId);
+            response.Success = _dataContext.Student.Any(s => s.DisplayName == studentName && s.StudentID != studentId);
             return response;
 
         }
@@ -360,7 +342,7 @@ namespace SMS.BL.Student
         public RepositoryResponse<bool> CheckStudentEmailById(string studentEmail, long? studentId)
         {
             var response = new RepositoryResponse<bool>();
-            response.Data = _dataContext.Student.Any(s => s.Email == studentEmail && s.StudentID != studentId);
+            response.Success = _dataContext.Student.Any(s => s.Email == studentEmail && s.StudentID != studentId);
             return response;
         }
 
@@ -374,19 +356,17 @@ namespace SMS.BL.Student
         {
             var response = new RepositoryResponse<bool>();
 
-            bool chexkStudentexisit = _dataContext.Student.Any(s => s.StudentID == student.StudentID);
+            bool checkStudentInUse = ISStudentAllocated(student.StudentID).Success;
 
-            bool checkStudentInUse = ISStudentAllocated(student.StudentID).Data;
-
-            bool checkRegNoAvailable = CheckStudentRegNoById(student.StudentRegNo, student.StudentID).Data;
-            bool checkNameAvailable = CheckStudentNameById(student.DisplayName, student.StudentID).Data;
-            bool checkEmailAvailable = CheckStudentEmailById(student.Email, student.StudentID).Data;
+            bool checkRegNoAvailable = CheckStudentRegNoById(student.StudentRegNo, student.StudentID).Success;
+            bool checkNameAvailable = CheckStudentNameById(student.DisplayName, student.StudentID).Success;
+            bool checkEmailAvailable = CheckStudentEmailById(student.Email, student.StudentID).Success;
 
             var editStudent=_dataContext.Student.SingleOrDefault(s=>s.StudentID == student.StudentID);
 
             try
             {
-                if (chexkStudentexisit)
+                if (editStudent!=null)
                 {
                     if (checkStudentInUse)
                     {
@@ -427,9 +407,7 @@ namespace SMS.BL.Student
                     editStudent.Address = student.Address;
                     editStudent.ContactNo = student.ContactNo;
                     editStudent.IsEnable = student.IsEnable;
-                    _dataContext.SaveChanges();
-
-                    response.Success = true;
+                    _dataContext.SaveChanges();                                        
                     response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE,"update student details"));
                     return response;
 
@@ -441,7 +419,7 @@ namespace SMS.BL.Student
 
 
             }
-            catch (Exception ex)
+            catch 
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "update one students detail"));
@@ -459,7 +437,7 @@ namespace SMS.BL.Student
         public RepositoryResponse<IEnumerable<StudentBO>> GetSearchStudents(StudentSearchViewModel studentSearchViewModel)
         {
             var response = new RepositoryResponse<IEnumerable<StudentBO>>();
-            var allStudents = GetAllStudents();
+            var allStudents = GetAllStudents(1,5);
 
             try
             {
@@ -476,11 +454,11 @@ namespace SMS.BL.Student
                     allStudents.Data = allStudents.Data.Where(s => s.StudentRegNo.ToUpper().Contains(studentSearchViewModel.Term.ToUpper()) || s.DisplayName.ToUpper().Contains(studentSearchViewModel.Term.ToUpper())).ToList();
                 }
                 response.Data = allStudents.Data;
+                response.TotalPages = 1;
 
                 if (response.Data.Any())
-                {
-                   
-                    response.Success = true;
+                {                 
+                 
                     response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "searchDetails"));
                     return response;
                 }
@@ -494,7 +472,7 @@ namespace SMS.BL.Student
                 
                 
             }
-            catch (Exception ex)
+            catch
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "search students detail"));
@@ -550,7 +528,7 @@ namespace SMS.BL.Student
 
 
             }
-            catch (Exception ex)
+            catch
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "toggle students status"));

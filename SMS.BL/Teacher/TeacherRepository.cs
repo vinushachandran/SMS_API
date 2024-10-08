@@ -1,4 +1,9 @@
-﻿using SMS.BL.Teacher.Interface;
+﻿/// <summary>
+/// <author>Vinusha</author>
+/// <date>07 October 2024</date> 
+/// <Purpose>This file implements the TeacherRepository class to handle teacher-related operations.</Purpose> 
+/// </summary>
+using SMS.BL.Teacher.Interface;
 using SMS.Data;
 using SMS.Model.Teacher;
 using SMS.ViewModel.RepositoryResponse;
@@ -26,7 +31,7 @@ namespace SMS.BL.Teacher
         /// </summary>
         /// <param name="isActive"></param>
         /// <returns></returns>
-        public RepositoryResponse<IEnumerable<TeacherBO>> GetAllTeachers(bool? isActive = null)
+        public RepositoryResponse<IEnumerable<TeacherBO>> GetAllTeachers(int pageNumber, int numberOfRecoards, bool? isActive = null)
         {
             var response = new RepositoryResponse<IEnumerable<TeacherBO>>();
             try
@@ -52,11 +57,12 @@ namespace SMS.BL.Teacher
                     allTeachers = allTeachers.Where(t => t.IsEnable == isActive.Value);
                 }
 
-                response.Data = allTeachers;
+                var totalTeacherCount = allTeachers.Count();
+                response.TotalPages = (int)Math.Ceiling((double)totalTeacherCount / numberOfRecoards);
+                response.Data = allTeachers.Skip((pageNumber - 1) * numberOfRecoards).Take(numberOfRecoards).ToList();
 
-                if (response.Data != null)
-                {
-                    response.Success = true;
+                if (response.Data.Any())
+                {                    
                     response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "get all teachers"));
                     return response;
                 }
@@ -65,7 +71,7 @@ namespace SMS.BL.Teacher
                 response.Message.Add(string.Format(StaticData.NO_DATA_FOUND, "teachers"));
                 return response;
             }
-            catch (Exception ex)
+            catch
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "Teachers"));
@@ -103,8 +109,7 @@ namespace SMS.BL.Teacher
                 response.Data = oneTeacher;
 
                 if (response.Data != null)
-                {
-                    response.Success = true;
+                {                    
                     response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "get this teacher"));
                     return response;
                 }
@@ -112,7 +117,7 @@ namespace SMS.BL.Teacher
                 response.Message.Add(string.Format(StaticData.NO_DATA_FOUND, "teacher"));
                 return response;
             }
-            catch (Exception ex)
+            catch
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "get one teacher's detail"));
@@ -125,7 +130,7 @@ namespace SMS.BL.Teacher
         {
             var response = new RepositoryResponse<bool>();
 
-            response.Data = _dataContext.Teacher_Subject_Allocation.Any(s => s.TeacherID == id);
+            response.Success = _dataContext.Teacher_Subject_Allocation.Any(s => s.TeacherID == id);
             return response;
         }
 
@@ -140,11 +145,11 @@ namespace SMS.BL.Teacher
             try
             {
                 var teacher = _dataContext.Teacher.SingleOrDefault(t => t.TeacherID == id);
-                bool isTeacherUsed = ISTeacherAllocated(id).Data;
+                bool isTeacherUsed = ISTeacherAllocated(id).Success;
 
                 if (teacher != null)
                 {
-                    if (teacher.IsEnable == true)
+                    if (teacher.IsEnable)
                     {
                         if (isTeacherUsed)
                         {
@@ -155,8 +160,7 @@ namespace SMS.BL.Teacher
                         else
                         {
                             _dataContext.Teacher.Remove(teacher);
-                            _dataContext.SaveChanges();
-                            response.Success = true;
+                            _dataContext.SaveChanges();                           
                             response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "delete the teacher"));
                             return response;
                         }
@@ -164,8 +168,7 @@ namespace SMS.BL.Teacher
                     else
                     {
                         _dataContext.Teacher.Remove(teacher);
-                        _dataContext.SaveChanges();
-                        response.Success = true;
+                        _dataContext.SaveChanges();                        
                         response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "delete the teacher"));
                         return response;
                     }
@@ -177,7 +180,7 @@ namespace SMS.BL.Teacher
                     return response;
                 }
             }
-            catch (Exception ex)
+            catch 
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "delete the teacher's detail"));
@@ -193,7 +196,7 @@ namespace SMS.BL.Teacher
         public RepositoryResponse<bool> IsTeacherRegNoInUse(string teacherRegNo)
         {
             var response = new RepositoryResponse<bool>();
-            response.Data = _dataContext.Teacher.Any(t => t.TeacherRegNo == teacherRegNo);
+            response.Success = _dataContext.Teacher.Any(t => t.TeacherRegNo == teacherRegNo);
             return response;
         }
 
@@ -205,7 +208,7 @@ namespace SMS.BL.Teacher
         public RepositoryResponse<bool> IsTeacherNameInUse(string teacherName)
         {
             var response = new RepositoryResponse<bool>();
-            response.Data = _dataContext.Teacher.Any(t => t.DisplayName == teacherName);
+            response.Success = _dataContext.Teacher.Any(t => t.DisplayName == teacherName);
             return response;
         }
 
@@ -217,7 +220,7 @@ namespace SMS.BL.Teacher
         public RepositoryResponse<bool> IsTeacherEmailInUse(string teacherEmail)
         {
             var response = new RepositoryResponse<bool>();
-            response.Data = _dataContext.Teacher.Any(t => t.Email == teacherEmail);
+            response.Success = _dataContext.Teacher.Any(t => t.Email == teacherEmail);
             return response;
         }
 
@@ -229,9 +232,9 @@ namespace SMS.BL.Teacher
         public RepositoryResponse<bool> AddTeacher(TeacherBO teacher)
         {
             var response = new RepositoryResponse<bool>();
-            bool isTeacherRegNoInUse = IsTeacherRegNoInUse(teacher.TeacherRegNo).Data;
-            bool isTeacherNameInUse = IsTeacherNameInUse(teacher.DisplayName).Data;
-            bool isTeacherEmailInUse = IsTeacherEmailInUse(teacher.Email).Data;
+            bool isTeacherRegNoInUse = IsTeacherRegNoInUse(teacher.TeacherRegNo).Success;
+            bool isTeacherNameInUse = IsTeacherNameInUse(teacher.DisplayName).Success;
+            bool isTeacherEmailInUse = IsTeacherEmailInUse(teacher.Email).Success;
 
             try
             {
@@ -274,15 +277,14 @@ namespace SMS.BL.Teacher
                                 IsEnable = teacher.IsEnable
                             };
                             _dataContext.Teacher.Add(newTeacher);
-                            _dataContext.SaveChanges();
-                            response.Success = true;
+                            _dataContext.SaveChanges();                            
                             response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "add a new teacher"));
                             return response;
                         }
                     }
                 }
             }
-            catch (Exception ex)
+            catch 
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "add one teacher's detail"));
@@ -299,7 +301,7 @@ namespace SMS.BL.Teacher
         public RepositoryResponse<bool> CheckTeacherRegNoById(string teacherRegNo, long? teacherId)
         {
             var response = new RepositoryResponse<bool>();
-            response.Data = _dataContext.Teacher.Any(t => t.TeacherRegNo == teacherRegNo && t.TeacherID != teacherId);
+            response.Success = _dataContext.Teacher.Any(t => t.TeacherRegNo == teacherRegNo && t.TeacherID != teacherId);
             return response;
         }
 
@@ -312,7 +314,7 @@ namespace SMS.BL.Teacher
         public RepositoryResponse<bool> CheckTeacherNameById(string teacherName, long? teacherId)
         {
             var response = new RepositoryResponse<bool>();
-            response.Data = _dataContext.Teacher.Any(t => t.DisplayName == teacherName && t.TeacherID != teacherId);
+            response.Success = _dataContext.Teacher.Any(t => t.DisplayName == teacherName && t.TeacherID != teacherId);
             return response;
         }
 
@@ -325,7 +327,7 @@ namespace SMS.BL.Teacher
         public RepositoryResponse<bool> CheckTeacherEmailById(string teacherEmail, long? teacherId)
         {
             var response = new RepositoryResponse<bool>();
-            response.Data = _dataContext.Teacher.Any(t => t.Email == teacherEmail && t.TeacherID != teacherId);
+            response.Success = _dataContext.Teacher.Any(t => t.Email == teacherEmail && t.TeacherID != teacherId);
             return response;
         }
 
@@ -337,18 +339,17 @@ namespace SMS.BL.Teacher
         public RepositoryResponse<bool> UpdateTeacherDetails(TeacherBO teacher)
         {
             var response = new RepositoryResponse<bool>();
-
-            bool checkTeacherExists = _dataContext.Teacher.Any(t => t.TeacherID == teacher.TeacherID);
-            bool checkTeacherInUse = ISTeacherAllocated(teacher.TeacherID).Data;
-            bool checkRegNoAvailable = CheckTeacherRegNoById(teacher.TeacherRegNo, teacher.TeacherID).Data;
-            bool checkNameAvailable = CheckTeacherNameById(teacher.DisplayName, teacher.TeacherID).Data;
-            bool checkEmailAvailable = CheckTeacherEmailById(teacher.Email, teacher.TeacherID).Data;
+                        
+            bool checkTeacherInUse = ISTeacherAllocated(teacher.TeacherID).Success;
+            bool checkRegNoAvailable = CheckTeacherRegNoById(teacher.TeacherRegNo, teacher.TeacherID).Success;
+            bool checkNameAvailable = CheckTeacherNameById(teacher.DisplayName, teacher.TeacherID).Success;
+            bool checkEmailAvailable = CheckTeacherEmailById(teacher.Email, teacher.TeacherID).Success;
 
             var editTeacher = _dataContext.Teacher.SingleOrDefault(t => t.TeacherID == teacher.TeacherID);
 
             try
             {
-                if (checkTeacherExists)
+                if (editTeacher!=null)
                 {
                     if (checkTeacherInUse)
                     {
@@ -390,8 +391,7 @@ namespace SMS.BL.Teacher
                     editTeacher.ContactNo = teacher.ContactNo;
                     editTeacher.IsEnable = teacher.IsEnable;
                     _dataContext.SaveChanges();
-
-                    response.Success = true;
+                                        
                     response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "update teacher details"));
                     return response;
                 }
@@ -400,7 +400,7 @@ namespace SMS.BL.Teacher
                 response.Message.Add(string.Format( StaticData.NO_DATA_FOUND, "teachers"));
                 return response;
             }
-            catch (Exception ex)
+            catch 
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "update teacher details"));
@@ -416,7 +416,7 @@ namespace SMS.BL.Teacher
         public RepositoryResponse<IEnumerable<TeacherBO>> GetSearchTeachers(TeacherSearchViewModel teacherSearchViewModel)
         {
             var response = new RepositoryResponse<IEnumerable<TeacherBO>>();
-            var allTeachers = GetAllTeachers(); 
+            var allTeachers = GetAllTeachers(1,5); 
 
             try
             {
@@ -442,8 +442,7 @@ namespace SMS.BL.Teacher
                 response.Data = allTeachers.Data;
 
                 if (response.Data.Any())
-                {
-                    response.Success = true;
+                {                    
                     response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "search teachers"));
                     return response;
                 }
@@ -454,7 +453,7 @@ namespace SMS.BL.Teacher
                     return response;
                 }
             }
-            catch (Exception ex)
+            catch 
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "search teachers detail"));
@@ -472,7 +471,7 @@ namespace SMS.BL.Teacher
         {
             var response = new RepositoryResponse<bool>();
             var teacher = _dataContext.Teacher.SingleOrDefault(t => t.TeacherID == id);
-            bool isTeacherUsed = ISTeacherAllocated(id).Data;
+            bool isTeacherUsed = ISTeacherAllocated(id).Success;
 
             try
             {
@@ -489,8 +488,7 @@ namespace SMS.BL.Teacher
                                 return response;
                             }
                             teacher.IsEnable = true;
-                            _dataContext.SaveChanges();
-                            response.Success = true;
+                            _dataContext.SaveChanges();                            
                             response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "enabled"));
                             return response;
                         }
@@ -503,8 +501,7 @@ namespace SMS.BL.Teacher
                                 return response;
                             }
                             teacher.IsEnable = false;
-                            _dataContext.SaveChanges();
-                            response.Success = true;
+                            _dataContext.SaveChanges();                            
                             response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "disabled"));
                             return response;
                         }
@@ -523,7 +520,7 @@ namespace SMS.BL.Teacher
 
                 
             }
-            catch (Exception ex)
+            catch 
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "toggle teacher's status"));

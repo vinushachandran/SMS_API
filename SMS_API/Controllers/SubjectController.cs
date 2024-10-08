@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿/// <summary>
+/// <author>Vinusha</author>
+/// <date>07 October 2024</date> 
+/// <Purpose>This file implements the SubjectController class to handle subject-related API operations.</Purpose> 
+/// </summary>
 using Microsoft.AspNetCore.Mvc;
 using SMS.BL.Subject.Interface;
 using SMS.Model.Subject;
+using SMS.ViewModel.StaticData;
 using SMS.ViewModel.Subject;
 
 namespace SMS_API.Controllers
@@ -23,22 +28,31 @@ namespace SMS_API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("GetAllSubjects")]
-        public IActionResult GetAllSubjectList([FromQuery] bool? isActive)
+        public IActionResult GetAllSubjectList([FromQuery] int pageNumber, int numberOfRecoards, bool? isActive)
         {
-            var response = _subjectRepository.GetAllSubjects(isActive);
+            var response = _subjectRepository.GetAllSubjects(pageNumber,numberOfRecoards, isActive);
+            try
+            {
+                var viewModel = new SubjectViewModel
+                {
+                    SubjectList = response.Data,
+                    totalPages = response.TotalPages,
 
-            var viewModel = new SubjectViewModel
-            {
-                SubjectList = response.Data
-            };
-            if (response.Success)
-            {
-                return Ok(viewModel);
+                };
+                if (response.Success)
+                {
+                    return Ok(viewModel);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_NOTFOUND, response);
+                }
             }
-            else
+            catch
             {
-                return StatusCode(500, response.Message);
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
+            
         }
 
 
@@ -53,18 +67,27 @@ namespace SMS_API.Controllers
         {
             var response = _subjectRepository.GetOneSubject(id);
 
-            var viewModel = new SubjectViewModel
+            try
             {
-                SubjectDetail = response.Data
-            };
-            if (response.Success)
-            {
-                return Ok(viewModel);
+                var viewModel = new SubjectViewModel
+                {
+                    SubjectDetail = response.Data
+                };
+                if (response.Success)
+                {
+                    return Ok(viewModel);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_NOTFOUND, response);
+                }
             }
-            else
+            catch
             {
-                return StatusCode(500, response.Message);
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
+
+           
         }
 
         /// <summary>
@@ -78,14 +101,23 @@ namespace SMS_API.Controllers
         {
             var response = _subjectRepository.DeleteSubject(id);
 
-            if (response.Success)
+            try
             {
-                return Ok(response.TotalMessages);
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_NOTFOUND, response);
+                }
             }
-            else
+            catch
             {
-                return StatusCode(500, response.Message);
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
+
+            
         }
 
         /// <summary>
@@ -98,14 +130,22 @@ namespace SMS_API.Controllers
         public IActionResult AddNewSubject([FromQuery] SubjectBO subject)
         {
             var response = _subjectRepository.AddSubject(subject);
-            if (response.Success)
+            try
             {
-                return Ok(response.TotalMessages);
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_VALIDATION, response);
+                }
             }
-            else
+            catch
             {
-                return StatusCode(500, response.Message);
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
+            
         }
 
         /// <summary>
@@ -118,15 +158,23 @@ namespace SMS_API.Controllers
         public IActionResult UpdateSubject([FromQuery] SubjectBO subject)
         {
             var response = _subjectRepository.UpdateSubjectDetails(subject);
+            try
+            {
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_VALIDATION, response);
+                }
+            }
+            catch
+            {
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
+            }
 
-            if (response.Success)
-            {
-                return Ok(response.TotalMessages);
-            }
-            else
-            {
-                return StatusCode(500, response.Message);
-            }
+            
         }
 
         /// <summary>
@@ -138,15 +186,22 @@ namespace SMS_API.Controllers
         public IActionResult GetSearchSubjects([FromQuery] SubjectSearchViewModel subjectSearchViewModel)
         {
             var response = _subjectRepository.GetSearchSubjects(subjectSearchViewModel);
-
-            if (response.Success)
+            try
             {
-                return Ok(response);
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_NOTFOUND, response);
+                }
             }
-            else
+            catch
             {
-                return StatusCode(500, response.Message);
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
+            
         }
 
         /// <summary>
@@ -161,14 +216,23 @@ namespace SMS_API.Controllers
         {
             var response = _subjectRepository.ToggleEnableSubject(id, isEnable);
 
-            if (response.Success)
+            try
             {
-                return Ok(response.TotalMessages);
+
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return StatusCode(StaticData.STATUSCODE_NOTFOUND, response);
+                }
             }
-            else
+            catch
             {
-                return StatusCode(500, response.Message);
+                return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
+
         }
 
     }

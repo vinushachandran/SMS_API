@@ -11,7 +11,7 @@ namespace SMS.Model.Subject
     public class SubjectBO
     {
         [Key]
-        public long? SubjectID { get; set; }
+        public long SubjectID { get; set; }
 
         [Required(ErrorMessage = "Subject Code is required")]
         [DisplayName("Subject Code")]

@@ -19,5 +19,7 @@ namespace SMS.ViewModel.Subject
         /// get one subject's details
         /// </summary>
         public SubjectBO SubjectDetail { get; set; }
+
+        public int? totalPages { get; set; }
     }
 }

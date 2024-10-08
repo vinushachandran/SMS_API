@@ -16,7 +16,7 @@ namespace SMS.BL.Subject.Interface
         /// </summary>
         /// <param name="isActive"></param>
         /// <returns></returns>
-        RepositoryResponse<IEnumerable<SubjectBO>> GetAllSubjects(bool? isActive = null);
+        RepositoryResponse<IEnumerable<SubjectBO>> GetAllSubjects(int pageNumber, int numberOfRecoards, bool? isActive = null);
 
         /// <summary>
         /// Get one subject details by it's id

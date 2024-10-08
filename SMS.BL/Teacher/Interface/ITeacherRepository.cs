@@ -17,7 +17,7 @@ namespace SMS.BL.Teacher.Interface
         /// </summary>
         /// <param name="isActive"></param>
         /// <returns></returns>
-        RepositoryResponse<IEnumerable<TeacherBO>> GetAllTeachers(bool? isActive = null);
+        RepositoryResponse<IEnumerable<TeacherBO>> GetAllTeachers(int pageNumber, int numberOfRecoards, bool? isActive = null);
 
         /// <summary>
         /// Get one student details

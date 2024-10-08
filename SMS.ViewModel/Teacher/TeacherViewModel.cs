@@ -18,5 +18,7 @@ namespace SMS.ViewModel.Teacher
         /// get one teacher's details
         /// </summary>
         public TeacherBO TeacherDetail { get; set; }
+
+        public int? totalPages { get; set; }
     }
 }

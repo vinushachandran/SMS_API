@@ -32,14 +32,6 @@ namespace SMS.Model.Allocation
         [DisplayName("Registration Number")]
         public long SubjectID { get; set; }
 
-        /// <summary>
-        /// Navigation property for Teacher
-        /// </summary>
-        public TeacherBO Teacher { get; set; }
-
-        /// <summary>
-        /// Navigation property for Subject
-        /// </summary>
-        public SubjectBO Subject { get; set; }
+        
     }
 }
