@@ -1,5 +1,6 @@
 ﻿using SMS.Model.Subject;
 using SMS.ViewModel.RepositoryResponse;
+using SMS.ViewModel.Search;
 using SMS.ViewModel.Subject;
 using System;
 using System.Collections.Generic;
@@ -89,7 +90,7 @@ namespace SMS.BL.Subject.Interface
         /// </summary>
         /// <param name="subjectSearchViewModel"></param>
         /// <returns></returns>
-        RepositoryResponse<IEnumerable<SubjectBO>> GetSearchSubjects(SubjectSearchViewModel subjectSearchViewModel);
+        RepositoryResponse<IEnumerable<SubjectBO>> GetSearchSubjects(SearchViewModel subjectSearchViewModel);
 
         /// <summary>
         /// Change the active status of a subject

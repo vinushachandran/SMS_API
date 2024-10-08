@@ -10,6 +10,7 @@ using SMS.Model.Allocation;
 using SMS.Model.Subject;
 using SMS.ViewModel.Allocation;
 using SMS.ViewModel.RepositoryResponse;
+using SMS.ViewModel.Search;
 using SMS.ViewModel.StaticData;
 
 
@@ -301,7 +302,7 @@ namespace SMS.BL.Allocation
         /// </summary>
         /// <param name="allocationSearchViewModel"></param>
         /// <returns></returns>
-        public RepositoryResponse<IEnumerable<SubjectAllocationGroupBySubjectViewModel>> GetSearchSubjectAllocation(AllocationSearchViewModel allocationSearchViewModel)
+        public RepositoryResponse<IEnumerable<SubjectAllocationGroupBySubjectViewModel>> GetSearchSubjectAllocation(SearchViewModel allocationSearchViewModel)
         {
             var response=new RepositoryResponse<IEnumerable<SubjectAllocationGroupBySubjectViewModel>>();
             var allSubjectAllocations = GetAllSubjectAllocation();
@@ -582,7 +583,7 @@ namespace SMS.BL.Allocation
         /// </summary>
         /// <param name="allocationSearchViewModel"></param>
         /// <returns></returns>
-        public RepositoryResponse<IEnumerable<StudentAllocationGroupByStudentViewModel>> GetSearchStudentAllocation(AllocationSearchViewModel allocationSearchViewModel)
+        public RepositoryResponse<IEnumerable<StudentAllocationGroupByStudentViewModel>> GetSearchStudentAllocation(SearchViewModel allocationSearchViewModel)
         {
             var response = new RepositoryResponse<IEnumerable<StudentAllocationGroupByStudentViewModel>>();
             var allStudentAllocations = GetAllStudentAllocation();

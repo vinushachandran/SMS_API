@@ -7,6 +7,7 @@ using SMS.BL.Student.Interface;
 using SMS.Data;
 using SMS.Model.Student;
 using SMS.ViewModel.RepositoryResponse;
+using SMS.ViewModel.Search;
 using SMS.ViewModel.StaticData;
 using SMS.ViewModel.Student;
 
@@ -434,7 +435,7 @@ namespace SMS.BL.Student
         /// </summary>
         /// <param name="studentSearchViewModel"></param>
         /// <returns></returns>
-        public RepositoryResponse<IEnumerable<StudentBO>> GetSearchStudents(StudentSearchViewModel studentSearchViewModel)
+        public RepositoryResponse<IEnumerable<StudentBO>> GetSearchStudents(SearchViewModel studentSearchViewModel)
         {
             var response = new RepositoryResponse<IEnumerable<StudentBO>>();
             var allStudents = GetAllStudents(1,5);

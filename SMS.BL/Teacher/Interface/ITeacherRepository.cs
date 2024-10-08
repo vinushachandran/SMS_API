@@ -1,6 +1,7 @@
 ﻿using SMS.Model.Student;
 using SMS.Model.Teacher;
 using SMS.ViewModel.RepositoryResponse;
+using SMS.ViewModel.Search;
 using SMS.ViewModel.Teacher;
 using System;
 using System.Collections.Generic;
@@ -103,7 +104,7 @@ namespace SMS.BL.Teacher.Interface
         /// </summary>
         /// <param name="teacherSearchViewModel"></param>
         /// <returns></returns>
-        RepositoryResponse<IEnumerable<TeacherBO>> GetSearchTeachers(TeacherSearchViewModel teacherSearchViewModel);
+        RepositoryResponse<IEnumerable<TeacherBO>> GetSearchTeachers(SearchViewModel teacherSearchViewModel);
 
         /// <summary>
         /// Chage tha active state of teacher

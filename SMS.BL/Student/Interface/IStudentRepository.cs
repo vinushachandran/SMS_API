@@ -5,6 +5,7 @@
 ///
 using SMS.Model.Student;
 using SMS.ViewModel.RepositoryResponse;
+using SMS.ViewModel.Search;
 using SMS.ViewModel.Student;
 using System;
 using System.Collections.Generic;
@@ -110,7 +111,7 @@ namespace SMS.BL.Student.Interface
         /// </summary>
         /// <param name="studentSearchViewModel"></param>
         /// <returns></returns>
-        RepositoryResponse<IEnumerable<StudentBO>> GetSearchStudents(StudentSearchViewModel studentSearchViewModel);
+        RepositoryResponse<IEnumerable<StudentBO>> GetSearchStudents(SearchViewModel studentSearchViewModel);
 
         /// <summary>
         /// Change the active state of a student

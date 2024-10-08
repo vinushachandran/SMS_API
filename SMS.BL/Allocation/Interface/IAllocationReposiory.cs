@@ -3,6 +3,7 @@ using SMS.Model.Student;
 using SMS.Model.Subject;
 using SMS.ViewModel.Allocation;
 using SMS.ViewModel.RepositoryResponse;
+using SMS.ViewModel.Search;
 using SMS.ViewModel.Student;
 using System;
 using System.Collections.Generic;
@@ -64,7 +65,7 @@ namespace SMS.BL.Allocation.Interface
         /// </summary>
         /// <param name="allocationSearchViewModel"></param>
         /// <returns></returns>
-        RepositoryResponse<IEnumerable<SubjectAllocationGroupBySubjectViewModel>> GetSearchSubjectAllocation(AllocationSearchViewModel allocationSearchViewModel);
+        RepositoryResponse<IEnumerable<SubjectAllocationGroupBySubjectViewModel>> GetSearchSubjectAllocation(SearchViewModel allocationSearchViewModel);
 
 
 
@@ -119,6 +120,6 @@ namespace SMS.BL.Allocation.Interface
         /// </summary>
         /// <param name="allocationSearchViewModel"></param>
         /// <returns></returns>
-        RepositoryResponse<IEnumerable<StudentAllocationGroupByStudentViewModel>> GetSearchStudentAllocation(AllocationSearchViewModel allocationSearchViewModel);
+        RepositoryResponse<IEnumerable<StudentAllocationGroupByStudentViewModel>> GetSearchStudentAllocation(SearchViewModel allocationSearchViewModel);
     }
 }

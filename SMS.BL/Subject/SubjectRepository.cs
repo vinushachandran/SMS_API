@@ -7,6 +7,7 @@ using SMS.BL.Subject.Interface;
 using SMS.Data;
 using SMS.Model.Subject;
 using SMS.ViewModel.RepositoryResponse;
+using SMS.ViewModel.Search;
 using SMS.ViewModel.StaticData;
 using SMS.ViewModel.Subject;
 
@@ -343,7 +344,7 @@ namespace SMS.BL.Subject
         /// </summary>
         /// <param name="subjectSearchViewModel"></param>
         /// <returns></returns>
-        public RepositoryResponse<IEnumerable<SubjectBO>> GetSearchSubjects(SubjectSearchViewModel subjectSearchViewModel)
+        public RepositoryResponse<IEnumerable<SubjectBO>> GetSearchSubjects(SearchViewModel subjectSearchViewModel)
         {
             var response = new RepositoryResponse<IEnumerable<SubjectBO>>();
             var allSubjects = GetAllSubjects(1,5);
