@@ -82,7 +82,7 @@ namespace SMS.BL.Allocation
 
 
 
-            catch (Exception ex)
+            catch 
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "Subject Allocation"));
@@ -498,7 +498,7 @@ namespace SMS.BL.Allocation
                 }
 
             }
-            catch (Exception ex)
+            catch 
             {
                 response.Success = false;
                 response.Message.Add(string.Format(StaticData.SOMETHING_WENT_WRONG, "student allocation"));
