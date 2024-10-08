@@ -456,7 +456,7 @@ namespace SMS.BL.Allocation
                     if (isStudentAllocationAlreadyExist.Success)
                     {
                         response.Success = false;
-                        response.Message.Add(string.Format("Student allocation already exist"));
+                        response.Message.Add("Student allocation already exist");
                         
                     }
                     else
