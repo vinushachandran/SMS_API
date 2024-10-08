@@ -155,14 +155,14 @@ namespace SMS.BL.Teacher
                         {
                             response.Success = false;
                             response.Message.Add(string.Format("This teacher " + teacher.DisplayName + " is allocated for a subject"));
-                            return response;
+                            
                         }
                         else
                         {
                             _dataContext.Teacher.Remove(teacher);
                             _dataContext.SaveChanges();                           
                             response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "delete the teacher"));
-                            return response;
+                            
                         }
                     }
                     else
@@ -170,15 +170,16 @@ namespace SMS.BL.Teacher
                         _dataContext.Teacher.Remove(teacher);
                         _dataContext.SaveChanges();                        
                         response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "delete the teacher"));
-                        return response;
+                        
                     }
                 }
                 else
                 {
                     response.Success = false;
                     response.Message.Add(string.Format(StaticData.NO_DATA_FOUND, "teachers"));
-                    return response;
+                    
                 }
+                return response;
             }
             catch 
             {

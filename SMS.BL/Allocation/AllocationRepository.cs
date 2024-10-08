@@ -106,15 +106,16 @@ namespace SMS.BL.Allocation
                 {
                     response.Data= subjectAllocation;
                     response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "get one subject allocation detail"));
-                    return response ;
+                    
                 }
                 else
                 {
                     response.Success = false;
                     response.Message.Add(string.Format(StaticData.NO_DATA_FOUND, "in subject allocation"));                    
-                    return response;
+                   
 
                 }
+                return response;
 
             }
             catch
@@ -146,7 +147,7 @@ namespace SMS.BL.Allocation
                     {
                         response.Success = false;
                         response.Message.Add(string.Format("Subject allocation already exist"));
-                        return response;
+                        
                     }
                     else
                     {
@@ -158,7 +159,7 @@ namespace SMS.BL.Allocation
                         _dataContext.SaveChanges();
 
                         response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "add a subject allocation!"));
-                        return response;
+                        
                     }
                 }
                 else
@@ -167,7 +168,7 @@ namespace SMS.BL.Allocation
                     {
                         response.Success = false;
                         response.Message.Add(string.Format("Subject allocation already exist"));
-                        return response;
+                        
                     }
                     else
                     {
@@ -180,14 +181,18 @@ namespace SMS.BL.Allocation
 
                             _dataContext.SaveChanges();
                             response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "update a subject allocation!"));
-                            return response;
+                            
                         }
-
-                        response.Success = false;
-                        response.Message.Add(string.Format(StaticData.NO_DATA_FOUND, "update a subject allocation!"));
-                        return response;
+                        else
+                        {
+                            response.Success = false;
+                            response.Message.Add(string.Format(StaticData.NO_DATA_FOUND, "update a subject allocation!"));
+                        }
+                        
+                        
                     }
                 }
+                return response;
             }
             catch
             {
@@ -238,16 +243,14 @@ namespace SMS.BL.Allocation
                     {
                         response.Success = false;
                         response.Message.Add(string.Format("This subjectallocation allocated for a student"));
-                        return response;
-
+                        
                     }
                     else
                     {
                         _dataContext.Teacher_Subject_Allocation.Remove(subjectAllocation);
                         _dataContext.SaveChanges();
                         response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "delete subject allocation"));
-                        return response;
-
+                        
                     }
 
                 }
@@ -255,8 +258,9 @@ namespace SMS.BL.Allocation
                 {
                     response.Success = false;
                     response.Message.Add(string.Format(StaticData.NO_DATA_FOUND, "subject allocation"));
-                    return response;
+                    
                 }
+                return response;
             }
 
             
@@ -322,15 +326,16 @@ namespace SMS.BL.Allocation
 
                 if (response.Data.Any())
                 {
-                    response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "searchDetails"));
-                    return response;
+                    response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "searchDetails"));                   
                 }
                 else
                 {
                     response.Success = false;
                     response.Message.Add(string.Format(StaticData.NO_DATA_FOUND, allocationSearchViewModel.Term));
-                    return response;
+                    
                 }
+
+                return response;
 
             }
             catch
@@ -451,7 +456,7 @@ namespace SMS.BL.Allocation
                     {
                         response.Success = false;
                         response.Message.Add(string.Format("Student allocation already exist"));
-                        return response;
+                        
                     }
                     else
                     {
@@ -463,7 +468,7 @@ namespace SMS.BL.Allocation
                         _dataContext.SaveChanges();
 
                         response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "add a student allocation!"));
-                        return response;
+                        
                     }
 
                 }
@@ -473,7 +478,7 @@ namespace SMS.BL.Allocation
                     {
                         response.Success = false;
                         response.Message.Add(string.Format("Subject allocation already exist"));
-                        return response;
+                        
                     }
                     else
                     {
@@ -486,16 +491,19 @@ namespace SMS.BL.Allocation
 
                             _dataContext.SaveChanges();
                             response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "update a student allocation!"));
-                            return response;
+                            
                         }
-                        response.Success = false;
-                        response.Message.Add(string.Format(StaticData.NO_DATA_FOUND, "update a student allocation!"));
-                        return response;
-
+                        else
+                        {
+                            response.Success = false;
+                            response.Message.Add(string.Format(StaticData.NO_DATA_FOUND, "update a student allocation!"));
+                            
+                        }                  
 
                     }
 
                 }
+                return response;
 
             }
             catch 
@@ -546,15 +554,16 @@ namespace SMS.BL.Allocation
                     _dataContext.Student_Subject_Teacher_Allocation.Remove(deleteStudentAllocation);
                     _dataContext.SaveChanges();
                     response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "delete student allocation"));
-                    return response;
+                   
                 }
                 else
                 {
                     response.Success = false;
                     response.Message.Add(string.Format(StaticData.NO_DATA_FOUND, "subject allocation"));
-                    return response;
+                    
 
                 }
+                return response;
 
 
             }
@@ -602,14 +611,15 @@ namespace SMS.BL.Allocation
                 if (response.Data.Any())
                 {
                     response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "searchDetails"));
-                    return response;
+                    
                 }
                 else
                 {
                     response.Success = false;
                     response.Message.Add(string.Format(StaticData.NO_DATA_FOUND, allocationSearchViewModel.Term));
-                    return response;
+                    
                 }
+                return response;
 
             }
             catch
@@ -634,16 +644,16 @@ namespace SMS.BL.Allocation
                 if(response.Data.Any())
                 {
                     response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "get all allocated subjects"));
-                    return response;
+                    
                 }
                 else
                 {
                     response.Success = false;
                     response.Message.Add(string.Format(StaticData.NO_DATA_FOUND, "allocated subject details"));
-                    return response;
+                    
 
                 }
-
+                return response;
             }
             catch
             {
@@ -678,15 +688,16 @@ namespace SMS.BL.Allocation
                 if (response.Data.Any())
                 {
                     response.Message.Add(string.Format(StaticData.SUCCESS_MESSAGE, "get all allocated subjects"));
-                    return response;
+                    
                 }
                 else
                 {
                     response.Success = false;
                     response.Message.Add(string.Format(StaticData.NO_DATA_FOUND, "allocated subject details"));
-                    return response;
+                   
 
                 }
+                return response;
 
 
 
