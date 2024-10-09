@@ -15,6 +15,7 @@ namespace SMS.BL.Allocation.Interface
 {
     public interface IAllocationReposiory
     {
+        #region Subject Allocation
         /**************************************Subject Allocation******************************************************************/
         /// <summary>
         /// Get all subject allocations
@@ -68,11 +69,11 @@ namespace SMS.BL.Allocation.Interface
         RepositoryResponse<IEnumerable<SubjectAllocationGroupBySubjectViewModel>> GetSearchSubjectAllocation(SearchViewModel allocationSearchViewModel);
 
 
+        #endregion
 
 
 
-
-
+        #region Student Allocation
         /**************************************Student Allocation******************************************************************/
         /// <summary>
         /// Get all subject allocations
@@ -121,5 +122,6 @@ namespace SMS.BL.Allocation.Interface
         /// <param name="allocationSearchViewModel"></param>
         /// <returns></returns>
         RepositoryResponse<IEnumerable<StudentAllocationGroupByStudentViewModel>> GetSearchStudentAllocation(SearchViewModel allocationSearchViewModel);
+        #endregion
     }
 }

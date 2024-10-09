@@ -131,7 +131,7 @@ namespace SMS.BL.Student
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public RepositoryResponse<bool> ISStudentAllocated(long? id)
+        public RepositoryResponse<bool> IsStudentAllocated(long? id)
         {
             var response = new RepositoryResponse<bool>();
 
@@ -152,7 +152,7 @@ namespace SMS.BL.Student
             try
             {
                 var student = _dataContext.Student.SingleOrDefault(s => s.StudentID == id);
-                bool isStudentUsed=ISStudentAllocated(id).Success;
+                bool isStudentUsed=IsStudentAllocated(id).Success;
 
                 if (student != null)
                 {
@@ -206,7 +206,7 @@ namespace SMS.BL.Student
         /// </summary>
         /// <param name="studentRegNo"></param>
         /// <returns></returns>
-        public RepositoryResponse<bool> ISStudentRegNoInUse(string studentRegNo)
+        public RepositoryResponse<bool> IsStudentRegNoInUse(string studentRegNo)
         {
             var response = new RepositoryResponse<bool>();
             response.Success=_dataContext.Student.Any(s=>s.StudentRegNo == studentRegNo);
@@ -218,7 +218,7 @@ namespace SMS.BL.Student
         /// </summary>
         /// <param name="studentName"></param>
         /// <returns></returns>
-        public RepositoryResponse<bool> ISStudentNameInUse(string studentName)
+        public RepositoryResponse<bool> IsStudentNameInUse(string studentName)
         {
             var response = new RepositoryResponse<bool>();
             response.Success= _dataContext.Student.Any(s=>s.DisplayName == studentName);  
@@ -231,7 +231,7 @@ namespace SMS.BL.Student
         /// </summary>
         /// <param name="studentEmail"></param>
         /// <returns></returns>
-        public RepositoryResponse<bool> ISStudentEmailInUse(string studentEmail)
+        public RepositoryResponse<bool> IsStudentEmailInUse(string studentEmail)
         {
             var response = new RepositoryResponse<bool>();
             response.Success = _dataContext.Student.Any(s=> s.Email == studentEmail);
@@ -248,9 +248,9 @@ namespace SMS.BL.Student
         public RepositoryResponse<bool> AddStudent(StudentBO student)
         {
             var response = new RepositoryResponse<bool>();
-            bool isStudentRegNoInUse = ISStudentRegNoInUse(student.StudentRegNo).Success;
-            bool isStudentNameInUse = ISStudentNameInUse(student.DisplayName).Success;
-            bool isStudentEmailInUse = ISStudentEmailInUse(student.Email). Success;
+            bool isStudentRegNoInUse = IsStudentRegNoInUse(student.StudentRegNo).Success;
+            bool isStudentNameInUse = IsStudentNameInUse(student.DisplayName).Success;
+            bool isStudentEmailInUse = IsStudentEmailInUse(student.Email). Success;
 
             try
             {
@@ -357,7 +357,7 @@ namespace SMS.BL.Student
         {
             var response = new RepositoryResponse<bool>();
 
-            bool checkStudentInUse = ISStudentAllocated(student.StudentID).Success;
+            bool checkStudentInUse = IsStudentAllocated(student.StudentID).Success;
 
             bool checkRegNoAvailable = CheckStudentRegNoById(student.StudentRegNo, student.StudentID).Success;
             bool checkNameAvailable = CheckStudentNameById(student.DisplayName, student.StudentID).Success;

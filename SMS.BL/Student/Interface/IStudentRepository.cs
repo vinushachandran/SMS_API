@@ -43,7 +43,7 @@ namespace SMS.BL.Student.Interface
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        RepositoryResponse<bool> ISStudentAllocated(long? id);
+        RepositoryResponse<bool> IsStudentAllocated(long? id);
 
 
         /// <summary>
@@ -51,21 +51,21 @@ namespace SMS.BL.Student.Interface
         /// </summary>
         /// <param name="studentRegNo"></param>
         /// <returns></returns>
-        RepositoryResponse<bool> ISStudentRegNoInUse(string studentRegNo);
+        RepositoryResponse<bool> IsStudentRegNoInUse(string studentRegNo);
 
         /// <summary>
         /// Check this name address already in use
         /// </summary>
         /// <param name="studentName"></param>
         /// <returns></returns>
-        RepositoryResponse<bool> ISStudentNameInUse(string studentName);
+        RepositoryResponse<bool> IsStudentNameInUse(string studentName);
 
         /// <summary>
         /// Check this name address already in use
         /// </summary>
         /// <param name="studentName"></param>
         /// <returns></returns>
-        RepositoryResponse<bool> ISStudentEmailInUse(string studentEmail);
+        RepositoryResponse<bool> IsStudentEmailInUse(string studentEmail);
 
 
         /// <summary>
