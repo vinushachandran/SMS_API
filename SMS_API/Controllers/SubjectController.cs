@@ -6,6 +6,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SMS.BL.Subject.Interface;
 using SMS.Model.Subject;
+using SMS.ViewModel.Search;
 using SMS.ViewModel.StaticData;
 using SMS.ViewModel.Subject;
 
@@ -183,7 +184,7 @@ namespace SMS_API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("GetSearchSubjects")]
-        public IActionResult GetSearchSubjects([FromQuery] SubjectSearchViewModel subjectSearchViewModel)
+        public IActionResult GetSearchSubjects([FromQuery] SearchViewModel subjectSearchViewModel)
         {
             var response = _subjectRepository.GetSearchSubjects(subjectSearchViewModel);
             try

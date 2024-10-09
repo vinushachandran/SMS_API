@@ -6,6 +6,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SMS.BL.Student.Interface;
 using SMS.Model.Student;
+using SMS.ViewModel.Search;
 using SMS.ViewModel.StaticData;
 using SMS.ViewModel.Student;
 
@@ -189,7 +190,7 @@ namespace SMS_API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("GetSerachStudents")]
-        public IActionResult GetSearchStudents([FromQuery] StudentSearchViewModel studentSearchViewModel)
+        public IActionResult GetSearchStudents([FromQuery] SearchViewModel studentSearchViewModel)
         {
             var response = _studentRepository.GetSearchStudents(studentSearchViewModel);
             try

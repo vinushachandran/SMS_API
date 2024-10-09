@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using SMS.BL.Allocation.Interface;
 using SMS.Model.Allocation;
 using SMS.ViewModel.Allocation;
+using SMS.ViewModel.Search;
 using SMS.ViewModel.StaticData;
 using SMS.ViewModel.Subject;
 
@@ -180,7 +181,7 @@ namespace SMS_API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("GetSerachSubjectAllocation")]
-        public IActionResult GetSerachSubjectAllocation([FromQuery] AllocationSearchViewModel allocationSearchViewModel)
+        public IActionResult GetSerachSubjectAllocation([FromQuery] SearchViewModel allocationSearchViewModel)
         {
             var response = _allocationRepository.GetSearchSubjectAllocation(allocationSearchViewModel);
             try
@@ -327,7 +328,7 @@ namespace SMS_API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("GetSerachStudentAllocation")]
-        public IActionResult GetSerachStudentAllocation([FromQuery] AllocationSearchViewModel allocationSearchViewModel)
+        public IActionResult GetSerachStudentAllocation([FromQuery] SearchViewModel allocationSearchViewModel)
         {
             var response = _allocationRepository.GetSearchStudentAllocation(allocationSearchViewModel);
             try
