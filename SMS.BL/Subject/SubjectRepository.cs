@@ -9,7 +9,6 @@ using SMS.Model.Subject;
 using SMS.ViewModel.RepositoryResponse;
 using SMS.ViewModel.Search;
 using SMS.ViewModel.StaticData;
-using SMS.ViewModel.Subject;
 
 
 namespace SMS.BL.Subject
@@ -74,7 +73,7 @@ namespace SMS.BL.Subject
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public RepositoryResponse<SubjectBO> GetOneSubject(int id)
+        public RepositoryResponse<SubjectBO> GetOneSubject(long id)
         {
             var response = new RepositoryResponse<SubjectBO>();
 
@@ -126,7 +125,7 @@ namespace SMS.BL.Subject
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public RepositoryResponse<bool> DeleteSubject(int id)
+        public RepositoryResponse<bool> DeleteSubject(long id)
         {
             var response = new RepositoryResponse<bool>();
             try

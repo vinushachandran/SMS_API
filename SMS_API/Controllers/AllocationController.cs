@@ -47,15 +47,11 @@ namespace SMS_API.Controllers
                 {
                     return StatusCode(StaticData.STATUSCODE_NOTFOUND, response);
                 }
-
             }
             catch 
             {
                 return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
-
-            }
-
-            
+            }            
         }
 
 
@@ -83,8 +79,7 @@ namespace SMS_API.Controllers
             catch
             {
                 return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
-            }
-            
+            }          
 
         }
 
@@ -109,14 +104,11 @@ namespace SMS_API.Controllers
                 {
                     return StatusCode(StaticData.STATUSCODE_VALIDATION, response);
                 }
-
             }
             catch 
             {
                 return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
-
-
         }
 
         /// <summary>
@@ -140,13 +132,11 @@ namespace SMS_API.Controllers
                 {
                     return StatusCode(StaticData.STATUSCODE_VALIDATION, response);
                 }
-
             }
             catch 
             {
                 return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
-
 
         }
 
@@ -165,13 +155,11 @@ namespace SMS_API.Controllers
                 {
                     return StatusCode(StaticData.STATUSCODE_VALIDATION, response);
                 }
-
             }
             catch
             {
                 return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
-
         }
 
 
@@ -199,7 +187,6 @@ namespace SMS_API.Controllers
             {
                 return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
-
            
         }
 

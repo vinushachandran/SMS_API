@@ -9,12 +9,6 @@ using SMS.Model.Teacher;
 using SMS.ViewModel.RepositoryResponse;
 using SMS.ViewModel.Search;
 using SMS.ViewModel.StaticData;
-using SMS.ViewModel.Teacher;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SMS.BL.Teacher
 {
@@ -85,7 +79,7 @@ namespace SMS.BL.Teacher
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public RepositoryResponse<TeacherBO> GetOneTeacher(int id)
+        public RepositoryResponse<TeacherBO> GetOneTeacher(long id)
         {
             var response = new RepositoryResponse<TeacherBO>();
 
@@ -140,7 +134,7 @@ namespace SMS.BL.Teacher
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public RepositoryResponse<bool> DeleteTeacher(int id)
+        public RepositoryResponse<bool> DeleteTeacher(long id)
         {
             var response = new RepositoryResponse<bool>();
             try

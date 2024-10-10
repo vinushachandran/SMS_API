@@ -126,7 +126,7 @@ namespace SMS_API.Controllers
 
         /// <summary>
         /// Add a new subject
-        /// </summary>
+        /// </summary>sd
         /// <param name="subject"></param>
         /// <returns></returns>
         [HttpPost]
@@ -184,6 +184,7 @@ namespace SMS_API.Controllers
         /// <summary>
         /// Get all subjects details based on search criteria
         /// </summary>
+        /// <param name="subjectSearchViewModel"></param>
         /// <returns></returns>
         [HttpGet]
         [Route("GetSearchSubjects")]
@@ -204,8 +205,7 @@ namespace SMS_API.Controllers
             catch
             {
                 return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
-            }
-            
+            }            
         }
 
         /// <summary>
@@ -222,7 +222,6 @@ namespace SMS_API.Controllers
 
             try
             {
-
                 if (response.Success)
                 {
                     return Ok(response);
@@ -236,8 +235,6 @@ namespace SMS_API.Controllers
             {
                 return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
             }
-
         }
-
     }
 }
