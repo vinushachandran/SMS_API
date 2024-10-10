@@ -87,9 +87,7 @@ namespace SMS_API.Controllers
             catch
             {
                 return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
-            }
-
-            
+            }           
 
         }
 
@@ -118,9 +116,7 @@ namespace SMS_API.Controllers
             catch
             {
                 return StatusCode(StaticData.STATUSCODE_INTERNAL_SERVAR_ERROR, response);
-            }
-
-            
+            }           
 
         }
 

@@ -26,6 +26,9 @@ namespace SMS_API.Controllers
         /// <summary>
         /// Get all subject details
         /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="numberOfRecoards"></param>
+        /// <param name="isActive"></param>
         /// <returns></returns>
         [HttpGet]
         [Route("GetAllSubjects")]
