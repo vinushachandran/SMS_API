@@ -9,7 +9,6 @@ using SMS.Model.Student;
 using SMS.ViewModel.RepositoryResponse;
 using SMS.ViewModel.Search;
 using SMS.ViewModel.StaticData;
-using SMS.ViewModel.Student;
 
 namespace SMS.BL.Student
 {

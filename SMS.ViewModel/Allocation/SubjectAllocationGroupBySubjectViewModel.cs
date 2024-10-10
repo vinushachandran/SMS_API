@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SMS.ViewModel.Allocation
+﻿namespace SMS.ViewModel.Allocation
 {
     public class SubjectAllocationGroupBySubjectViewModel
     {

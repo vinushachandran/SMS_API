@@ -1,12 +1,6 @@
 ﻿using SMS.Model.Subject;
 using SMS.ViewModel.RepositoryResponse;
 using SMS.ViewModel.Search;
-using SMS.ViewModel.Subject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SMS.BL.Subject.Interface
 {
@@ -24,7 +18,7 @@ namespace SMS.BL.Subject.Interface
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        RepositoryResponse<SubjectBO> GetOneSubject(int id);
+        RepositoryResponse<SubjectBO> GetOneSubject(long id);
 
         /// <summary>
         /// Check one subject is allocated for any teacher
@@ -38,7 +32,7 @@ namespace SMS.BL.Subject.Interface
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        RepositoryResponse<bool> DeleteSubject(int id);
+        RepositoryResponse<bool> DeleteSubject(long id);
 
         /// <summary>
         /// Check if subject code is already available

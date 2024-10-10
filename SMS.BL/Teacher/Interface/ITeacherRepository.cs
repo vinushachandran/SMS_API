@@ -1,13 +1,6 @@
-﻿using SMS.Model.Student;
-using SMS.Model.Teacher;
+﻿using SMS.Model.Teacher;
 using SMS.ViewModel.RepositoryResponse;
 using SMS.ViewModel.Search;
-using SMS.ViewModel.Teacher;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SMS.BL.Teacher.Interface
 {
@@ -25,7 +18,7 @@ namespace SMS.BL.Teacher.Interface
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        RepositoryResponse<TeacherBO> GetOneTeacher(int id);
+        RepositoryResponse<TeacherBO> GetOneTeacher(long id);
 
         /// <summary>
         /// Check teacher allocated for any subject
@@ -39,7 +32,7 @@ namespace SMS.BL.Teacher.Interface
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        RepositoryResponse<bool> DeleteTeacher(int id);
+        RepositoryResponse<bool> DeleteTeacher(long id);
 
         /// <summary>
         /// Check teacher reg number already exsist

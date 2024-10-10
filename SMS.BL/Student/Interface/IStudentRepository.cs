@@ -6,12 +6,6 @@
 using SMS.Model.Student;
 using SMS.ViewModel.RepositoryResponse;
 using SMS.ViewModel.Search;
-using SMS.ViewModel.Student;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SMS.BL.Student.Interface
 {
