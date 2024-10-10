@@ -207,7 +207,7 @@ namespace SMS_API.Controllers
 
         [HttpPut]
         [Route("ToggleTeacherStatus")]
-        public IActionResult ToggleStatusOfTeacher([FromQuery] int id, bool isEnable)
+        public IActionResult ToggleStatusOfTeacher([FromQuery] long id, bool isEnable)
         {
             var response = _teacherRepository.ToggleEnableTeacher(id, isEnable);
 
